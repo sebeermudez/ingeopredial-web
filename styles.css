@@ -1,0 +1,63 @@
+/* Paleta y configuración general */
+:root {
+  --azul-principal: #102a43;
+  --azul-secundario: #243b53;
+  --dorado: #f0b429;
+  --fondo-claro: #f7f9fa;
+  --texto-oscuro: #334e68;
+  --blanco: #ffffff;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--fondo-claro);
+  color: var(--texto-oscuro);
+  line-height: 1.6;
+}
+
+/* Encabezado */
+header {
+  background-color: var(--azul-principal);
+  color: var(--blanco);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+header h1 {
+  color: var(--dorado);
+  margin: 0;
+}
+
+nav a {
+  color: var(--blanco);
+  text-decoration: none;
+  font-weight: bold;
+  margin: 0 10px;
+}
+
+nav a:hover {
+  color: var(--dorado);
+}
+
+/* Secciones */
+section {
+  padding: 2rem;
+  max-width: 800px;
+  margin: auto;
+}
+
+h2 {
+  color: var(--azul-principal);
+  border-bottom: 2px solid var(--dorado);
+  padding-bottom: 0.5rem;
+}
+
+/* Pie de página */
+footer {
+  background-color: var(--azul-principal);
+  color: var(--blanco);
+  text-align: center;
+  padding: 1rem;
+}

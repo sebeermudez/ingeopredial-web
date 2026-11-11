@@ -1,9 +1,9 @@
 /* Paleta corporativa Ingeo Predial */
 :root {
-  --azul-corporativo: #0d2b45;  /* Azul marino de "INGEO" */
-  --verde-corporativo: #2d8a39; /* Verde de "PREDIAL" y las colinas */
-  --fondo-claro: #f8fafc;       /* Fondo suave */
-  --texto-oscuro: #1e293b;      /* Texto de lectura */
+  --azul-corporativo: #0d2b45;
+  --verde-corporativo: #2d8a39;
+  --fondo-claro: #f8fafc;
+  --texto-oscuro: #1e293b;
   --blanco: #ffffff;
 }
 
@@ -53,7 +53,7 @@ h2 {
   padding-bottom: 0.5rem;
 }
 
-/* Pie de página */
+/* Pie de pagina */
 footer {
   background-color: var(--azul-corporativo);
   color: var(--blanco);

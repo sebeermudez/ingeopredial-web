@@ -62,11 +62,23 @@ Siguiendo estrictamente la directriz de utilizar rutas relativas `./assets/image
 
 | Activo Visual | Ubicación en DOM | Ruta / URL Seleccionada | Atributo `alt` (según `copywriting.md`) |
 | :--- | :--- | :--- | :--- |
-| **Logo Corporativo (Header)** | `<header> .brand-logo img` | `./assets/images/logo-ingeopredial.png` *(con fallback opcional a `.svg`)* | `"Logo oficial de INGEOPREDIAL S.A.S. - Firma de Ingenieros Catastrales y Geodestas en Colombia"` |
+| **Logo Corporativo (Header)** | `<header> .brand-logo img` | `./assets/images/logo-ingeopredial.png` *(PNG RGBA 398×412 px con fondo 100% transparente `alpha = 0`)* | `"Logo oficial de INGEOPREDIAL S.A.S. - Firma de Ingenieros Catastrales y Geodestas en Colombia"` |
 | **Imagen Hero Section (`#inicio`)** | Fondo CSS o `<img>` de fondo en `#inicio` (Temática: *Surveying / GNSS / Topography in field*) | `https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=85` *(Respaldo alternativo: `https://images.unsplash.com/photo-1541888946425-d09bb18086f6?auto=format&fit=crop&w=1920&q=85`)* | `"Ingenieros catastrales y geodestas ejecutando levantamientos topográficos de alta precisión con equipos GNSS RTK y fotogrametría con dron en Colombia"` |
 | **Imagen Sección Nosotros (`#nosotros`)** | `<figure class="about-media"> <img>` (Temática: *Blueprints / Cartography / Engineering plans*) | `https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85` | `"Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial"` |
-| **Logo Corporativo (Footer)** | `<footer> .footer-brand img` | `./assets/images/logo-ingeopredial.png` | `"INGEOPREDIAL S.A.S. - Consultoría en Avalúos Comerciales, Topografía y Gestión Predial"` |
-| **Favicon del Documento** | `<head> <link rel="icon">` | `./assets/images/logo-ingeopredial.png` | N/A |
+| **Logo Corporativo (Footer)** | `<footer> .footer-brand img` | `./assets/images/logo-ingeopredial.png` *(PNG RGBA con fondo transparente)* | `"INGEOPREDIAL S.A.S. - Consultoría en Avalúos Comerciales, Topografía y Gestión Predial"` |
+| **Favicon del Documento** | `<head> <link rel="icon">` | `./assets/images/logo-ingeopredial.png` *(PNG RGBA con fondo transparente)* | N/A |
+
+### 2.1. Especificación Técnica del Logo Oficial con Fondo Transparente (`logo-ingeopredial.png`)
+- **Formato y Dimensiones:** `PNG` en modo de color `RGBA` (`398 × 412 px`).
+- **Transparencia Real (`Alpha = 0`):** Se eliminó por completo el recuadro de fondo gris claro opaco (`RGB(239, 238, 238)`), garantizando que todos los píxeles de fondo exterior e interior tengan valor exacto `RGBA(0, 0, 0, 0)` (`59.94%` de la superficie total completamente transparente).
+- **Descontaminación Cromática y Anti-Aliasing:** Los bordes curvos del arco exterior, el pin de georreferenciación en azul corporativo (`#0d2b45`) y las franjas de terreno en verde corporativo (`#2d8a39`) cuentan con transición suave de canal alfa (`3.09%` de píxeles de borde con anti-aliasing gradual y descontaminación de halo gris), integrándose limpiamente tanto sobre el fondo `--blanco-fondo` (`#ffffff`) del `<header>` como sobre contenedores claros en el `<footer>`.
+- **Rutas Sincronizadas del Activo:**
+  - `/home/antigravity/sebeermudez/ingeopredial-web/logo.png`
+  - `/home/antigravity/sebeermudez/ingeopredial-web/assets/images/logo-ingeopredial.png`
+  - `/home/antigravity/sebeermudez/ingeopredial-web/landing_page/assets/images/logo-ingeopredial.png`
+  - `/home/antigravity/landing_page/assets/images/logo-ingeopredial.png`
+  - `/home/antigravity/Desktop/landing_page/assets/images/logo-ingeopredial.png`
+  - `/home/antigravity/Escritorio/landing_page/assets/images/logo-ingeopredial.png`
 
 ---
 

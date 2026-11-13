@@ -1,66 +1,565 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es-CO">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ingeo Predial S.A.S. | Gestión Predial e Inmobiliaria</title>
-  <link rel="stylesheet" href="styles.css">
+  <title>INGEOPREDIAL S.A.S. | Avalúos, Topografía y Gestión Catastral</title>
+  <meta name="description" content="INGEOPREDIAL: Firma de ingenieros catastrales en Colombia. Expertos en avalúos comerciales, levantamientos topográficos y seguridad jurídica predial.">
+  <meta name="keywords" content="ingenieros catastrales, geodestas, avalúos comerciales, levantamientos topográficos, Resolución 941 de 2026, Resolución Conjunta 1101, IGAC, SNR, GNSS RTK, fotogrametría con dron, gestión predial Colombia, saneamiento predial">
+  <meta name="author" content="INGEOPREDIAL S.A.S.">
+  <meta name="robots" content="index, follow">
+
+  <!-- Open Graph / Social -->
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="es_CO">
+  <meta property="og:title" content="INGEOPREDIAL S.A.S. | Avalúos, Topografía y Gestión Catastral">
+  <meta property="og:description" content="INGEOPREDIAL: Firma de ingenieros catastrales en Colombia. Expertos en avalúos comerciales, levantamientos topográficos y seguridad jurídica predial.">
+  <meta property="og:image" content="./assets/images/logo-ingeopredial.png">
+
+  <!-- Favicon Relativo -->
+  <link rel="icon" href="./assets/images/logo-ingeopredial.png" type="image/png">
+  <link rel="apple-touch-icon" href="./assets/images/logo-ingeopredial.png">
+
+  <!-- Tipografías Google Fonts (Inter & Montserrat) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Hoja de Estilos Principal Relativa -->
+  <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <!-- Enlace de salto para accesibilidad por teclado -->
+  <a href="#main-content" class="skip-link">Saltar al contenido principal</a>
 
-<!-- Encabezado y Navegación Corporativa -->
-  <header>
-    <div class="nav-container">
-      <div class="brand">
-        <img src="logo.png" alt="Logo Ingeo Predial" class="brand-logo">
-        <div class="brand-text">
-          <span class="brand-title">INGEO PREDIAL</span>
-          <span class="brand-subtitle">Gestión Predial e Inmobiliaria</span>
-        </div>
-      </div>
-      <nav>
-        <a href="#inicio">Inicio</a>
-        <a href="#nosotros">Nosotros</a>
-        <a href="#servicios">Servicios</a>
-        <a href="#contacto" class="btn-contacto">Contacto</a>
+  <!-- ENCABEZADO Y BARRA DE NAVEGACIÓN (Sticky en Desktop / Hamburguesa en Móvil) -->
+  <header class="site-header" id="top">
+    <div class="container header-container">
+      <!-- Logo en el extremo izquierdo -->
+      <a href="#inicio" class="brand-logo" aria-label="Ir al inicio de INGEOPREDIAL S.A.S.">
+        <img src="./assets/images/logo-ingeopredial.png"
+             onerror="this.onerror=null; this.src='./assets/images/logo-ingeopredial.svg';"
+             alt="Logo oficial de INGEOPREDIAL S.A.S. - Firma de Ingenieros Catastrales y Geodestas en Colombia"
+             width="180" height="52">
+        <span class="brand-name">INGEOPREDIAL <small>S.A.S.</small></span>
+      </a>
+
+      <!-- Botón Menú Hamburguesa (Visible en Mobile < 992px) -->
+      <button class="nav-toggle" id="navToggle" type="button"
+              aria-expanded="false" aria-controls="primaryNav"
+              aria-label="Abrir menú de navegación principal">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
+
+      <!-- Barra de Navegación Principal -->
+      <nav class="primary-nav" id="primaryNav" aria-label="Navegación principal">
+        <ul class="nav-list">
+          <li><a href="#inicio" class="nav-link">Inicio</a></li>
+          <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
+          <li><a href="#servicios" class="nav-link">Servicios</a></li>
+          <li><a href="#contacto" class="nav-link">Contacto</a></li>
+        </ul>
+        <a href="#contacto" class="btn btn-primary btn-header-cta">Solicitar Cotización</a>
       </nav>
     </div>
   </header>
 
-  <main>
-    <!-- 1. Portada -->
-    <section id="inicio">
-      <h2>Soluciones claras para su tierra y su patrimonio</h2>
+  <!-- CONTENIDO PRINCIPAL -->
+  <main id="main-content">
+
+    <!-- 1. SECCIÓN DE INICIO — HERO SECTION (#inicio) -->
+    <section id="inicio" class="hero-section" aria-labelledby="hero-title">
+      <!-- Imagen de fondo semántica con atributo alt requerido por directrices -->
+      <div class="hero-bg-wrapper">
+        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=85"
+             alt="Ingenieros catastrales y geodestas ejecutando levantamientos topográficos de alta precisión con equipos GNSS RTK y fotogrametría con dron en Colombia"
+             class="hero-bg-image" fetchpriority="high">
+        <div class="hero-overlay"></div>
+      </div>
+
+      <div class="container hero-container">
+        <div class="hero-content">
+          <span class="eyebrow-badge">INGENIERÍA CATASTRAL, GEODESIA Y CONSULTORÍA PREDIAL EN COLOMBIA</span>
+          <h1 id="hero-title">Seguridad Jurídica y Precisión Técnica para su Patrimonio Inmobiliario y Territorial</h1>
+          <p class="hero-subtitle">
+            Respaldamos sus decisiones de inversión, infraestructura y saneamiento de la propiedad mediante avalúos comerciales certificados, levantamientos topográficos de alta precisión y gestión integral del territorio bajo estricto cumplimiento de la normatividad IGAC y SNR.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#contacto" class="btn btn-primary btn-lg">Solicitar Asesoría Técnica</a>
+            <a href="#servicios" class="btn btn-outline-light btn-lg">Explorar Portafolio de Servicios</a>
+          </div>
+        </div>
+
+        <!-- Accesos Directos Destacados en Primera Pantalla: Avalúos y Topografía -->
+        <div class="hero-quick-access" aria-label="Accesos directos a servicios principales">
+          <article class="quick-card">
+            <div class="quick-card-header">
+              <span class="quick-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21h18"/>
+                  <path d="M5 21V7l7-4 7 4v14"/>
+                  <path d="M9 14l2 2 4-4"/>
+                </svg>
+              </span>
+              <h2>Avalúos Comerciales (IGAC / Res. 941 de 2026)</h2>
+            </div>
+            <p>Dictámenes técnicos de valor comercial para predios urbanos, rurales y activos especiales con rigor metodológico y validez oficial.</p>
+            <a href="#servicio-avaluos" class="quick-link">Ver alcance en Avalúos →</a>
+          </article>
+
+          <article class="quick-card">
+            <div class="quick-card-header">
+              <span class="quick-icon" aria-hidden="true">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="12" r="3"/>
+                  <path d="M12 2v4M12 18v4M2 12h4M18 12h4"/>
+                </svg>
+              </span>
+              <h2>Topografía GNSS/RTK, Fotogrametría y SIG</h2>
+            </div>
+            <p>Georreferenciación milimétrica, mapeo aerofotogramétrico con dron (RPAS) y modelamiento cartográfico para proyectos urbanos y rurales.</p>
+            <a href="#servicio-topografia" class="quick-link">Ver alcance en Topografía →</a>
+          </article>
+        </div>
+
+        <!-- Barra de Confianza (Trust Bar) -->
+        <ul class="hero-trust-bar" aria-label="Garantías institucionales">
+          <li><span class="trust-check" aria-hidden="true">✓</span> Liderado por Ingenieros Catastrales y Geodestas</li>
+          <li><span class="trust-check" aria-hidden="true">✓</span> Normatividad Vigente IGAC &amp; SNR</li>
+          <li><span class="trust-check" aria-hidden="true">✓</span> Cobertura en Bogotá D.C. y a Nivel Nacional</li>
+        </ul>
+      </div>
     </section>
 
-    <!-- 2. Quiénes somos -->
-    <section id="nosotros">
-      <h2>Quiénes Somos</h2>
-      <p>Experiencia, seriedad y atención personalizada en Cundinamarca y alrededores.</p>
+    <!-- 2. SECCIÓN NOSOTROS (#nosotros) -->
+    <section id="nosotros" class="section about-section bg-light" aria-labelledby="about-title">
+      <div class="container about-grid">
+        <!-- Columna de Contenido Institucional -->
+        <div class="about-content">
+          <span class="section-eyebrow">RESPALDO INSTITUCIONAL Y RIGOR CIENTÍFICO</span>
+          <h2 id="about-title" class="section-title">Autoridad Técnica Liderada por Ingenieros Catastrales y Geodestas Expertos</h2>
+          <p class="about-lead">
+            <strong>INGEOPREDIAL S.A.S.</strong> es una firma colombiana de ingeniería y consultoría especializada en la administración, valoración y ordenamiento físico-jurídico del territorio. Nuestra organización está <strong>liderada por un equipo directivo de tres ingenieros catastrales y geodestas expertos</strong>, cuya trayectoria combina el dominio de las ciencias geoespaciales, la valuación inmobiliaria y el derecho registral y catastral.
+          </p>
+          <p class="about-body">
+            Entendemos que cada metro cuadrado y cada línea de lindero representan patrimonio, inversión y viabilidad de proyectos. Por ello, integramos instrumentación geodésica de última generación con un análisis riguroso de los títulos de propiedad y las disposiciones vigentes del Instituto Geográfico Agustín Codazzi (IGAC), la Superintendencia de Notariado y Registro (SNR), los Planes de Ordenamiento Territorial (POT) y las Curadurías Urbanas, garantizando <strong>seguridad jurídica y técnica en todo el territorio colombiano</strong>.
+          </p>
+
+          <!-- 3 Pilares de Valor Corporativo -->
+          <div class="about-pillars">
+            <article class="pillar-item">
+              <div class="pillar-marker" aria-hidden="true">01</div>
+              <div>
+                <h3>Rigor Técnico y Geodésico</h3>
+                <p>Aplicación estricta de estándares posicionales MAGNA-SIRGAS, tecnología GNSS/RTK y procesamiento fotogramétrico de alta resolución.</p>
+              </div>
+            </article>
+            <article class="pillar-item">
+              <div class="pillar-marker" aria-hidden="true">02</div>
+              <div>
+                <h3>Blindaje Normativo y Registral</h3>
+                <p>Articulación exacta entre la realidad física del terreno, la base catastral y la tradición jurídica en los folios de matrícula inmobiliaria.</p>
+              </div>
+            </article>
+            <article class="pillar-item">
+              <div class="pillar-marker" aria-hidden="true">03</div>
+              <div>
+                <h3>Cobertura Nacional Multipropósito</h3>
+                <p>Capacidad operativa en Bogotá D.C. y despliegue técnico en zonas urbanas, suburbanas y rurales de cualquier departamento del país.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+
+        <!-- Columna de Imagen de Apoyo con Sello de Autoridad -->
+        <figure class="about-media">
+          <div class="about-image-frame">
+            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85"
+                 alt="Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial"
+                 loading="lazy" width="600" height="720">
+          </div>
+          <figcaption class="about-authority-badge">
+            <span class="badge-number">3</span>
+            <span class="badge-text">Ingenieros Catastrales y Geodestas Directores al frente de cada dictamen técnico</span>
+          </figcaption>
+        </figure>
+      </div>
     </section>
 
-    <!-- 3. Servicios -->
-    <section id="servicios">
-      <h2>Nuestros Servicios</h2>
-      <ul>
-        <li>Levantamientos topográficos</li>
-        <li>Trámites prediales</li>
-        <li>Avalúos</li>
-        <li>Cartografía y SIG</li>
-      </ul>
+    <!-- 3. SECCIÓN DE SERVICIOS — LOS 4 PILARES TÉCNICOS (#servicios) -->
+    <section id="servicios" class="section services-section" aria-labelledby="services-title">
+      <div class="container">
+        <header class="section-header text-center">
+          <span class="section-eyebrow">SOLUCIONES INTEGRALES EN INGENIERÍA DEL TERRITORIO</span>
+          <h2 id="services-title" class="section-title">Nuestro Portafolio Especializado de Servicios</h2>
+          <p class="section-description">
+            Ejecutamos estudios, dictámenes y trámites técnicos con trazabilidad documental y precisión certificada, estructurados en cuatro líneas estratégicas de actuación predial:
+          </p>
+        </header>
+
+        <div class="services-grid">
+          <!-- TARJETA 1: AVALÚOS -->
+          <article id="servicio-avaluos" class="service-card">
+            <div class="service-card-top">
+              <div class="service-icon-box">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de avalúos comerciales urbanos y rurales bajo normativa IGAC" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 21h18"/>
+                  <path d="M5 21V7l7-4 7 4v14"/>
+                  <path d="M9 9h6"/>
+                  <path d="M9 13h6"/>
+                  <path d="M9 17l2 2 4-4"/>
+                </svg>
+              </div>
+              <span class="service-norm-tag">Normatividad IGAC • Resolución 941 de 2026</span>
+            </div>
+            <h3 class="service-card-title">Avalúos Comerciales, Urbanos y Rurales</h3>
+            <p class="service-card-desc">
+              Elaboración de dictámenes valuatorios objetivos y sustentados estadísticamente para determinar el valor comercial real de bienes inmuebles urbanos, rurales e industriales. Aplicamos con estricto rigor las metodologías oficiales del <strong>IGAC</strong> y los lineamientos técnicos actualizados de la <strong>Resolución 941 de 2026</strong>, brindando soporte confiable para transacciones comerciales, garantías hipotecarias, procesos judiciales, estados financieros (NIIF) y gestión predial.
+            </p>
+            <ul class="service-scope-list">
+              <li>Avalúos comerciales de inmuebles urbanos (residenciales, comerciales, industriales y lotes).</li>
+              <li>Avalúos de predios rurales, agropecuarios y de expansión urbana.</li>
+              <li>Cálculo de indemnizaciones, servidumbres y avalúos corporativos bajo estándares IGAC y Resolución 941 de 2026.</li>
+            </ul>
+            <a href="#contacto" class="service-card-cta" data-service="avaluos">Cotizar Avalúo Técnico →</a>
+          </article>
+
+          <!-- TARJETA 2: TOPOGRAFÍA -->
+          <article id="servicio-topografia" class="service-card">
+            <div class="service-card-top">
+              <div class="service-icon-box">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de levantamientos topográficos con GNSS RTK, dron y SIG" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <circle cx="12" cy="10" r="3"/>
+                  <circle cx="12" cy="10" r="7"/>
+                  <path d="M12 2v2"/>
+                  <path d="M4 10H2"/>
+                  <path d="M22 10h-2"/>
+                  <path d="M12 17v5"/>
+                  <path d="M8 22l4-5 4 5"/>
+                </svg>
+              </div>
+              <span class="service-norm-tag">Equipos GNSS/RTK • Dron (RPAS) • Cartografía Digital</span>
+            </div>
+            <h3 class="service-card-title">Topografía de Precisión, Fotogrametría y SIG</h3>
+            <p class="service-card-desc">
+              Ejecución de <strong>levantamientos topográficos</strong> urbanos y rurales amarrados a la red geodésica nacional mediante receptores satelitales <strong>GNSS/RTK</strong> de doble frecuencia y estaciones totales. Integramos captura aerofotogramétrica con <strong>dron (RPAS)</strong>, generación de ortofotomosaicos, Modelos Digitales de Terreno (MDT/MDS), cartografía temática y estructuración de bases de datos en <strong>Sistemas de Información Geográfica (SIG)</strong> bajo estándares del Catastro Multipropósito.
+            </p>
+            <ul class="service-scope-list">
+              <li>Levantamientos planimétricos, altimétricos y georreferenciación con tecnología GNSS/RTK.</li>
+              <li>Fotogrametría aérea con dron (RPAS), curvas de nivel de alta densidad y cálculo de volúmenes.</li>
+              <li>Producción de cartografía oficial, planos georreferenciados y análisis espacial en entornos SIG.</li>
+            </ul>
+            <a href="#contacto" class="service-card-cta" data-service="topografia">Solicitar Levantamiento →</a>
+          </article>
+
+          <!-- TARJETA 3: TRÁMITES PREDIALES Y GESTIÓN CATASTRAL -->
+          <article id="servicio-tramites-prediales" class="service-card">
+            <div class="service-card-top">
+              <div class="service-icon-box">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de trámites prediales, gestión catastral y Resolución Conjunta 1101" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
+                  <line x1="9" y1="3" x2="9" y2="18"/>
+                  <line x1="15" y1="6" x2="15" y2="21"/>
+                </svg>
+              </div>
+              <span class="service-norm-tag">Resolución Conjunta 1101 (IGAC - SNR) • Saneamiento Predial</span>
+            </div>
+            <h3 class="service-card-title">Trámites Prediales y Gestión Catastral</h3>
+            <p class="service-card-desc">
+              Gestión integral ante gestores catastrales, notarías y Oficinas de Registro de Instrumentos Públicos para armonizar la realidad física del inmueble con su realidad jurídica. Especialistas en procedimientos de precisión bajo la <strong>Resolución Conjunta 1101</strong>, garantizando el éxito técnico-legal en la modificación, división, agrupación y saneamiento de la propiedad raíz.
+            </p>
+            <ul class="service-scope-list">
+              <li>Rectificaciones y actualizaciones de áreas y linderos registrales (<strong>Resolución Conjunta 1101</strong> IGAC - SNR).</li>
+              <li>Deslindes y amojonamientos técnicos en terreno, constitución e imposición de servidumbres.</li>
+              <li>Proyectos de loteos, parcelaciones, englobes y desenglobes prediales.</li>
+              <li>Estudios de títulos exhaustivos y trazabilidad histórico-registral de predios.</li>
+            </ul>
+            <a href="#contacto" class="service-card-cta" data-service="tramites-prediales">Iniciar Trámite Predial →</a>
+          </article>
+
+          <!-- TARJETA 4: LEGALIZACIÓN Y CONSULTORÍA -->
+          <article id="servicio-legalizacion" class="service-card">
+            <div class="service-card-top">
+              <div class="service-icon-box">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de legalización de construcciones y consultoría normativa POT" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <path d="M9 15l2 2 4-4"/>
+                </svg>
+              </div>
+              <span class="service-norm-tag">Normativa POT • Curadurías Urbanas • Viabilidad Predial</span>
+            </div>
+            <h3 class="service-card-title">Legalización Urbanística y Consultoría Técnica</h3>
+            <p class="service-card-desc">
+              Asesoría técnica y jurídica especializada para la regularización de desarrollos constructivos y el análisis de viabilidad normativa del suelo. Evaluamos las determinantes de los <strong>Planes de Ordenamiento Territorial (POT)</strong>, realizamos diagnóstico de folios de matrícula inmobiliaria y estructuramos expedientes técnicos ante <strong>Curadurías Urbanas</strong> y secretarías de planeación municipal.
+            </p>
+            <ul class="service-scope-list">
+              <li>Reconocimiento y legalización de construcciones existentes ante Curadurías Urbanas.</li>
+              <li>Revisión técnica y jurídica de folios de matrícula inmobiliaria y gravámenes.</li>
+              <li>Análisis estructural básico y levantamiento arquitectónico para trámites de licenciamiento.</li>
+              <li>Consultoría especializada en normas urbanísticas del POT, usos del suelo y edificabilidad.</li>
+            </ul>
+            <a href="#contacto" class="service-card-cta" data-service="legalizacion">Consultar Viabilidad →</a>
+          </article>
+        </div>
+      </div>
     </section>
 
-    <!-- 4. Contacto -->
-    <section id="contacto">
-      <h2>Contacto</h2>
-      <p>Teléfono: 310-629-1208</p>
+    <!-- 4. SECCIÓN DE CONTACTO (#contacto) -->
+    <section id="contacto" class="section contact-section bg-light" aria-labelledby="contact-title">
+      <div class="container contact-grid">
+        <!-- Columna Izquierda: Información Institucional y Teléfonos Directivos -->
+        <div class="contact-info">
+          <span class="section-eyebrow">ATENCIÓN DIRECTA DE INGENIEROS ESPECIALISTAS</span>
+          <h2 id="contact-title" class="section-title">Hable con Nuestro Equipo Directivo y Solicite su Propuesta Técnica</h2>
+          <p class="contact-intro">
+            Exponga el requerimiento técnico o jurídico de su predio. Nuestros tres ingenieros catastrales y geodestas directores evaluarán su caso de manera personalizada para ofrecerle una ruta de trabajo precisa, transparente y ajustada a la normatividad colombiana vigente.
+          </p>
+
+          <div class="contact-cards-stack">
+            <!-- Bloque de Ubicación -->
+            <div class="info-card">
+              <h3>Ubicación y Cobertura</h3>
+              <p>Sede principal en <strong>Bogotá D.C.</strong> con capacidad de desplazamiento técnico, operación de campo y gestión catastral <strong>a nivel nacional</strong> en todos los municipios de Colombia.</p>
+            </div>
+
+            <!-- Bloque de Líneas Directivas -->
+            <div class="info-card">
+              <h3>Líneas Directas — Dirección de Ingeniería</h3>
+              <ul class="phone-list">
+                <li>
+                  <a href="tel:+573106291208" class="phone-link">
+                    <span class="phone-badge">Línea Directiva 1</span>
+                    <strong>+57 310-629-1208</strong>
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+573227389449" class="phone-link">
+                    <span class="phone-badge">Línea Directiva 2</span>
+                    <strong>+57 322-738-9449</strong>
+                  </a>
+                </li>
+                <li>
+                  <a href="tel:+573125338045" class="phone-link">
+                    <span class="phone-badge">Línea Directiva 3</span>
+                    <strong>+57 312-533-8045</strong>
+                  </a>
+                </li>
+              </ul>
+              <p class="schedule-note">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. | Sábados: 8:00 a.m. – 1:00 p.m.</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna Derecha: Formulario de Solicitud Técnica -->
+        <div class="contact-form-wrapper">
+          <form id="contactForm" class="contact-form" action="#contacto" method="post" novalidate>
+            <h3 class="form-title">Formulario de Solicitud Técnica</h3>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nombre">Nombre completo o Empresa *</label>
+                <input type="text" id="nombre" name="nombre" required placeholder="Ej. Ing. Carlos Mendoza / Constructora Andina S.A.S.">
+              </div>
+              <div class="form-group">
+                <label for="telefono">Teléfono móvil / WhatsApp *</label>
+                <input type="tel" id="telefono" name="telefono" required placeholder="Ej. 310 000 0000">
+              </div>
+            </div>
+
+            <div class="form-row">
+              <div class="form-group">
+                <label for="correo">Correo electrónico corporativo o personal *</label>
+                <input type="email" id="correo" name="correo" required placeholder="Ej. contacto@empresa.com">
+              </div>
+              <div class="form-group">
+                <label for="municipio">Municipio y Departamento del Predio *</label>
+                <input type="text" id="municipio" name="municipio" required placeholder="Ej. Bogotá D.C. / Chía, Cundinamarca">
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="servicio">Especialidad requerida *</label>
+              <select id="servicio" name="servicio" required>
+                <option value="" disabled selected>Seleccione el servicio de su interés...</option>
+                <option value="avaluos">Avalúos Comerciales (Urbanos / Rurales - Res. 941 de 2026)</option>
+                <option value="topografia">Topografía GNSS/RTK, Fotogrametría con Dron y SIG</option>
+                <option value="tramites-prediales">Trámites Prediales y Gestión Catastral (Res. Conjunta 1101, Linderos, Englobes)</option>
+                <option value="legalizacion">Legalización de Construcciones y Consultoría POT / Curadurías</option>
+                <option value="consultoria-integral">Consultoría Integral / Otro requerimiento predial</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label for="mensaje">Detalles técnicos del predio o requerimiento *</label>
+              <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Indique brevemente el área aproximada, número de matrícula inmobiliaria o cédula catastral (opcional) y el objetivo de su trámite o estudio."></textarea>
+            </div>
+
+            <p class="form-privacy">
+              Al enviar esta solicitud, autoriza el tratamiento confidencial de sus datos conforme a la Ley 1581 de 2012, exclusivamente para fines de cotización y asesoría técnica por parte de INGEOPREDIAL S.A.S.
+            </p>
+
+            <div id="formFeedback" class="form-feedback" role="status" aria-live="polite" hidden></div>
+
+            <button type="submit" class="btn btn-primary btn-block">Enviar Solicitud al Equipo de Ingeniería</button>
+          </form>
+        </div>
+      </div>
     </section>
+
   </main>
 
-  <!-- Pie de página -->
-  <footer>
-    <p>&copy; 2026 Ingeo Predial S.A.S. Todos los derechos reservados.</p>
+  <!-- PIE DE PÁGINA (<footer>) -->
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <a href="#inicio" class="footer-logo-link">
+          <img src="./assets/images/logo-ingeopredial.png"
+               onerror="this.onerror=null; this.src='./assets/images/logo-ingeopredial.svg';"
+               alt="INGEOPREDIAL S.A.S. - Consultoría en Avalúos Comerciales, Topografía y Gestión Predial"
+               width="160" height="46" loading="lazy">
+        </a>
+        <p class="footer-about">
+          <strong>INGEOPREDIAL S.A.S.</strong> — Firma especializada de ingenieros catastrales y geodestas. Brindamos seguridad jurídica, precisión topográfica y rigor valuatorio en Bogotá D.C. y en todo el territorio nacional colombiano.
+        </p>
+      </div>
+
+      <nav class="footer-nav" aria-label="Enlaces del pie de página">
+        <h4>Especialidades</h4>
+        <ul>
+          <li><a href="#servicio-avaluos">Avalúos Comerciales (Res. 941 de 2026)</a></li>
+          <li><a href="#servicio-topografia">Topografía GNSS/RTK y Dron</a></li>
+          <li><a href="#servicio-tramites-prediales">Trámites Prediales (Res. Conjunta 1101)</a></li>
+          <li><a href="#servicio-legalizacion">Legalización y Consultoría POT</a></li>
+        </ul>
+      </nav>
+
+      <div class="footer-contact">
+        <h4>Contacto Directivo</h4>
+        <p>Ubicación: Bogotá D.C., Colombia — Cobertura a Nivel Nacional</p>
+        <p class="footer-phones">
+          Líneas Directivas:
+          <a href="tel:+573106291208">310-629-1208</a> |
+          <a href="tel:+573227389449">322-738-9449</a> |
+          <a href="tel:+573125338045">312-533-8045</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container">
+        <p>© 2026 INGEOPREDIAL S.A.S. Todos los derechos reservados. Ingeniería Catastral, Geodesia, Avalúos Comerciales y Gestión Predial en Colombia.</p>
+      </div>
+    </div>
   </footer>
 
+  <!-- BOTÓN FLOTANTE DE WHATSAPP SIEMPRE VISIBLE (position: fixed) -->
+  <a href="https://wa.me/573106291208?text=Hola%20INGEOPREDIAL%20S.A.S.,%20solicito%20asesor%C3%ADa%20t%C3%A9cnica%20sobre%20un%20servicio%20predial."
+     class="whatsapp-float"
+     target="_blank"
+     rel="noopener noreferrer"
+     aria-label="Contactar a un ingeniero catastral de INGEOPREDIAL S.A.S. por WhatsApp">
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+    </svg>
+    <span class="whatsapp-tooltip">Asesoría en línea</span>
+  </a>
+
+  <!-- INTERACCIONES ACCESIBLES (Menú Hamburguesa Móvil, Preselección de Servicios y Envío a WhatsApp) -->
+  <script>
+    (function () {
+      'use strict';
+
+      var navToggle = document.getElementById('navToggle');
+      var primaryNav = document.getElementById('primaryNav');
+      var navLinks = document.querySelectorAll('.primary-nav a');
+
+      function closeMobileMenu() {
+        if (!navToggle || !primaryNav) return;
+        primaryNav.classList.remove('is-open');
+        navToggle.classList.remove('is-active');
+        navToggle.setAttribute('aria-expanded', 'false');
+      }
+
+      if (navToggle && primaryNav) {
+        navToggle.addEventListener('click', function () {
+          var isOpen = primaryNav.classList.toggle('is-open');
+          navToggle.classList.toggle('is-active', isOpen);
+          navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        });
+
+        navLinks.forEach(function (link) {
+          link.addEventListener('click', closeMobileMenu);
+        });
+
+        document.addEventListener('keydown', function (event) {
+          if (event.key === 'Escape') {
+            closeMobileMenu();
+          }
+        });
+      }
+
+      // Preseleccionar especialidad en el formulario al hacer clic en los CTAs de las tarjetas de servicio
+      var serviceCtas = document.querySelectorAll('.service-card-cta[data-service]');
+      var serviceSelect = document.getElementById('servicio');
+      serviceCtas.forEach(function (cta) {
+        cta.addEventListener('click', function () {
+          var targetService = cta.getAttribute('data-service');
+          if (serviceSelect && targetService) {
+            serviceSelect.value = targetService;
+          }
+        });
+      });
+
+      // Manejo del Formulario de Solicitud Técnica
+      var contactForm = document.getElementById('contactForm');
+      var formFeedback = document.getElementById('formFeedback');
+
+      if (contactForm) {
+        contactForm.addEventListener('submit', function (event) {
+          event.preventDefault();
+
+          var nombre = document.getElementById('nombre').value.trim();
+          var telefono = document.getElementById('telefono').value.trim();
+          var correo = document.getElementById('correo').value.trim();
+          var municipio = document.getElementById('municipio').value.trim();
+          var servicioEl = document.getElementById('servicio');
+          var servicioTexto = servicioEl.options[servicioEl.selectedIndex] ? servicioEl.options[servicioEl.selectedIndex].text : '';
+          var mensaje = document.getElementById('mensaje').value.trim();
+
+          if (!nombre || !telefono || !correo || !municipio || !servicioEl.value || !mensaje) {
+            if (formFeedback) {
+              formFeedback.hidden = false;
+              formFeedback.className = 'form-feedback is-error';
+              formFeedback.textContent = 'Por favor complete todos los campos obligatorios (*) para estructurar su solicitud técnica.';
+            }
+            return;
+          }
+
+          var waMessage = 'Hola INGEOPREDIAL S.A.S., solicito cotización / asesoría técnica:\n' +
+            '• Nombre/Empresa: ' + nombre + '\n' +
+            '• Teléfono: ' + telefono + '\n' +
+            '• Correo: ' + correo + '\n' +
+            '• Municipio/Predio: ' + municipio + '\n' +
+            '• Especialidad: ' + servicioTexto + '\n' +
+            '• Detalles: ' + mensaje;
+
+          var waUrl = 'https://wa.me/573106291208?text=' + encodeURIComponent(waMessage);
+
+          if (formFeedback) {
+            formFeedback.hidden = false;
+            formFeedback.className = 'form-feedback is-success';
+            formFeedback.innerHTML = '✓ Solicitud técnica estructurada correctamente. Redirigiendo a atención directa por WhatsApp o comuníquese al <strong>310-629-1208</strong>.';
+          }
+
+          window.open(waUrl, '_blank', 'noopener,noreferrer');
+          contactForm.reset();
+        });
+      }
+    })();
+  </script>
 </body>
 </html>

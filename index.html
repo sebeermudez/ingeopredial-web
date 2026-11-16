@@ -14,7 +14,7 @@
   <meta property="og:locale" content="es_CO">
   <meta property="og:title" content="INGEOPREDIAL S.A.S. | Avalúos, Topografía y Gestión Catastral">
   <meta property="og:description" content="INGEOPREDIAL: Firma de ingenieros catastrales en Colombia. Expertos en avalúos comerciales, levantamientos topográficos y seguridad jurídica predial.">
-  <meta property="og:image" content="./assets/images/logo-ingeopredial.png">
+  <meta property="og:image" content="./assets/images/hero-topografia-colombia.jpg">
 
   <!-- Favicon Relativo -->
   <link rel="icon" href="./assets/images/logo-ingeopredial.png" type="image/png">
@@ -59,6 +59,7 @@
           <li><a href="#inicio" class="nav-link">Inicio</a></li>
           <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
           <li><a href="#servicios" class="nav-link">Servicios</a></li>
+          <li><a href="#galeria" class="nav-link">Galería</a></li>
           <li><a href="#contacto" class="nav-link">Contacto</a></li>
         </ul>
         <a href="#contacto" class="btn btn-primary btn-header-cta">Solicitar Cotización</a>
@@ -69,27 +70,59 @@
   <!-- CONTENIDO PRINCIPAL -->
   <main id="main-content">
 
-    <!-- 1. SECCIÓN DE INICIO — HERO SECTION (#inicio) -->
+    <!-- 1. SECCIÓN DE INICIO — SPLIT HERO SECTION (#inicio) -->
     <section id="inicio" class="hero-section" aria-labelledby="hero-title">
-      <!-- Imagen de fondo semántica con atributo alt requerido por directrices -->
+      <!-- Imagen de fondo semántica con overlay --azul-corporativo al 78% -->
       <div class="hero-bg-wrapper">
-        <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=85"
+        <img src="./assets/images/hero-topografia-colombia.jpg"
+             onerror="this.onerror=null; this.src='./assets/images/hero-topografia-colombia.png';"
              alt="Ingenieros catastrales y geodestas ejecutando levantamientos topográficos de alta precisión con equipos GNSS RTK y fotogrametría con dron en Colombia"
              class="hero-bg-image" fetchpriority="high">
         <div class="hero-overlay"></div>
       </div>
 
       <div class="container hero-container">
-        <div class="hero-content">
-          <span class="eyebrow-badge">INGENIERÍA CATASTRAL, GEODESIA Y CONSULTORÍA PREDIAL EN COLOMBIA</span>
-          <h1 id="hero-title">Seguridad Jurídica y Precisión Técnica para su Patrimonio Inmobiliario y Territorial</h1>
-          <p class="hero-subtitle">
-            Respaldamos sus decisiones de inversión, infraestructura y saneamiento de la propiedad mediante avalúos comerciales certificados, levantamientos topográficos de alta precisión y gestión integral del territorio bajo estricto cumplimiento de la normatividad IGAC y SNR.
-          </p>
+        <!-- Layout Split Hero (Texto Izquierda / Tarjeta Fotográfica Nítida Derecha) -->
+        <div class="hero-split-grid">
+          <div class="hero-content">
+            <span class="eyebrow-badge">INGENIERÍA CATASTRAL, GEODESIA Y CONSULTORÍA PREDIAL EN COLOMBIA</span>
+            <h1 id="hero-title">Seguridad Jurídica y Precisión Técnica para su Patrimonio Inmobiliario y Territorial</h1>
+            <p class="hero-subtitle">
+              Respaldamos sus decisiones de inversión, infraestructura y saneamiento de la propiedad mediante avalúos comerciales certificados, levantamientos topográficos de alta precisión y gestión integral del territorio bajo estricto cumplimiento de la normatividad IGAC y SNR.
+            </p>
 
-          <div class="hero-cta-group">
-            <a href="#contacto" class="btn btn-primary btn-lg">Solicitar Asesoría Técnica</a>
-            <a href="#servicios" class="btn btn-outline-light btn-lg">Explorar Portafolio de Servicios</a>
+            <div class="hero-cta-group">
+              <a href="#contacto" class="btn btn-primary btn-lg">Solicitar Asesoría Técnica</a>
+              <a href="#servicios" class="btn btn-outline-light btn-lg">Explorar Portafolio de Servicios</a>
+            </div>
+          </div>
+
+          <!-- Tarjeta Fotográfica Lateral de Alta Nitidez con Telemetría Técnica -->
+          <div class="hero-visual-showcase">
+            <figure class="hero-featured-frame">
+              <img src="./assets/images/hero-topografia-colombia.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/hero-topografia-colombia.png';"
+                   alt="Operación de receptor geodésico GNSS RTK de precisión milimétrica y estación total en Colombia por INGEOPREDIAL S.A.S."
+                   class="hero-featured-img" width="540" height="420">
+
+              <!-- Indicador Flotante 1: Precisión RTK -->
+              <div class="hero-floating-badge badge-top-right">
+                <span class="status-dot" aria-hidden="true"></span>
+                <div>
+                  <strong>Precisión GNSS/RTK</strong>
+                  <span>Georreferenciación MAGNA-SIRGAS</span>
+                </div>
+              </div>
+
+              <!-- Indicador Flotante 2: Normativa IGAC 2026 -->
+              <div class="hero-floating-badge badge-bottom-left">
+                <span class="badge-icon-check" aria-hidden="true">✓</span>
+                <div>
+                  <strong>Normativa IGAC 2026</strong>
+                  <span>Res. 941 • Res. Conjunta 1101</span>
+                </div>
+              </div>
+            </figure>
           </div>
         </div>
 
@@ -134,10 +167,10 @@
       </div>
     </section>
 
-    <!-- 2. SECCIÓN NOSOTROS (#nosotros) -->
+    <!-- 2. SECCIÓN NOSOTROS (#nosotros) — COLLAGE DOBLE IMAGEN + MÉTRICAS -->
     <section id="nosotros" class="section about-section bg-light" aria-labelledby="about-title">
       <div class="container about-grid">
-        <!-- Columna de Contenido Institucional -->
+        <!-- Columna Izquierda: Contenido Institucional y 3 Pilares -->
         <div class="about-content">
           <span class="section-eyebrow">RESPALDO INSTITUCIONAL Y RIGOR CIENTÍFICO</span>
           <h2 id="about-title" class="section-title">Autoridad Técnica Liderada por Ingenieros Catastrales y Geodestas Expertos</h2>
@@ -174,22 +207,48 @@
           </div>
         </div>
 
-        <!-- Columna de Imagen de Apoyo con Sello de Autoridad -->
-        <figure class="about-media">
-          <div class="about-image-frame">
-            <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85"
-                 alt="Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial"
-                 loading="lazy" width="600" height="720">
+        <!-- Columna Derecha: Collage Técnico de Doble Imagen + 3 Tarjetas de Métricas Visuales -->
+        <div class="about-visual-column">
+          <div class="about-collage" role="group" aria-label="Registro visual de dirección de ingeniería catastral y operación geodésica en campo">
+            <!-- Imagen Principal: Los 3 Ingenieros Catastrales y Geodestas revisando Cartografía y SIG -->
+            <figure class="about-collage-primary">
+              <img src="./assets/images/nosotros-ingenieros-catastrales.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/nosotros-ingenieros-catastrales.png';"
+                   alt="Equipo directivo de tres ingenieros catastrales y geodestas analizando cartografía predial de Colombia, planos topográficos y modelo SIG 3D para seguridad jurídica territorial"
+                   loading="lazy" width="540" height="400">
+              <figcaption class="collage-tag">Dirección de Ingeniería &amp; Cartografía SIG</figcaption>
+            </figure>
+
+            <!-- Imagen Secundaria Superpuesta: Levantamiento en Campo con GNSS/RTK y Dron -->
+            <figure class="about-collage-secondary">
+              <img src="./assets/images/servicio-topografia.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/servicio-topografia.png';"
+                   alt="Ingenieros geodestas realizando levantamiento topográfico en campo con antena GNSS RTK y dron RPAS en terreno colombiano"
+                   loading="lazy" width="340" height="240">
+              <figcaption class="collage-tag collage-tag-green">Operación Geodésica en Campo</figcaption>
+            </figure>
           </div>
-          <figcaption class="about-authority-badge">
-            <span class="badge-number">3</span>
-            <span class="badge-text">Ingenieros Catastrales y Geodestas Directores al frente de cada dictamen técnico</span>
-          </figcaption>
-        </figure>
+
+          <!-- Tarjetas de Métricas Visuales (KPI Cards) -->
+          <div class="about-metrics-grid" aria-label="Indicadores de respaldo institucional">
+            <div class="metric-card">
+              <strong class="metric-value">100%</strong>
+              <span class="metric-label">Cumplimiento IGAC / SNR</span>
+            </div>
+            <div class="metric-card">
+              <strong class="metric-value">Nacional</strong>
+              <span class="metric-label">Cobertura en Colombia</span>
+            </div>
+            <div class="metric-card">
+              <strong class="metric-value">3 Directores</strong>
+              <span class="metric-label">Ing. Catastrales y Geodestas</span>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- 3. SECCIÓN DE SERVICIOS — LOS 4 PILARES TÉCNICOS (#servicios) -->
+    <!-- 3. SECCIÓN DE SERVICIOS — LOS 4 PILARES CON CABECERA FOTOGRÁFICA, SVG FLOTANTE Y CHIPS (#servicios) -->
     <section id="servicios" class="section services-section" aria-labelledby="services-title">
       <div class="container">
         <header class="section-header text-center">
@@ -203,9 +262,15 @@
         <div class="services-grid">
           <!-- TARJETA 1: AVALÚOS -->
           <article id="servicio-avaluos" class="service-card">
-            <div class="service-card-top">
-              <div class="service-icon-box">
-                <svg class="service-icon-svg" role="img" aria-label="Ícono de avalúos comerciales urbanos y rurales bajo normativa IGAC" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="service-card-media">
+              <img src="./assets/images/servicio-avaluos.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/servicio-avaluos.png';"
+                   alt="Ingeniero avaluador realizando inspección técnica para avalúos comerciales urbanos, rurales e industriales en Colombia bajo normatividad IGAC y Resolución 941 de 2026"
+                   loading="lazy" width="600" height="240">
+              <div class="service-media-overlay"></div>
+              <span class="service-norm-tag">Normatividad IGAC • Resolución 941 de 2026</span>
+              <div class="service-icon-box service-icon-floating">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de avalúos comerciales urbanos y rurales bajo normativa IGAC" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M3 21h18"/>
                   <path d="M5 21V7l7-4 7 4v14"/>
                   <path d="M9 9h6"/>
@@ -213,25 +278,37 @@
                   <path d="M9 17l2 2 4-4"/>
                 </svg>
               </div>
-              <span class="service-norm-tag">Normatividad IGAC • Resolución 941 de 2026</span>
             </div>
-            <h3 class="service-card-title">Avalúos Comerciales, Urbanos y Rurales</h3>
-            <p class="service-card-desc">
-              Elaboración de dictámenes valuatorios objetivos y sustentados estadísticamente para determinar el valor comercial real de bienes inmuebles urbanos, rurales e industriales. Aplicamos con estricto rigor las metodologías oficiales del <strong>IGAC</strong> y los lineamientos técnicos actualizados de la <strong>Resolución 941 de 2026</strong>, brindando soporte confiable para transacciones comerciales, garantías hipotecarias, procesos judiciales, estados financieros (NIIF) y gestión predial.
-            </p>
-            <ul class="service-scope-list">
-              <li>Avalúos comerciales de inmuebles urbanos (residenciales, comerciales, industriales y lotes).</li>
-              <li>Avalúos de predios rurales, agropecuarios y de expansión urbana.</li>
-              <li>Cálculo de indemnizaciones, servidumbres y avalúos corporativos bajo estándares IGAC y Resolución 941 de 2026.</li>
-            </ul>
-            <a href="#contacto" class="service-card-cta" data-service="avaluos">Cotizar Avalúo Técnico →</a>
+
+            <div class="service-card-body">
+              <h3 class="service-card-title">Avalúos Comerciales, Urbanos y Rurales</h3>
+              <p class="service-card-desc">
+                Elaboración de dictámenes valuatorios objetivos y sustentados estadísticamente para determinar el valor comercial real de bienes inmuebles urbanos, rurales e industriales bajo las metodologías oficiales del <strong>IGAC</strong> y la <strong>Resolución 941 de 2026</strong>.
+              </p>
+
+              <!-- Chips Técnicos Escaneables -->
+              <ul class="service-chips" aria-label="Alcances en Avalúos">
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Inmuebles Urbanos y Lotes</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Predios Rurales y Agropecuarios</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Activos Industriales y NIIF</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Indemnizaciones y Servidumbres</li>
+              </ul>
+
+              <a href="#contacto" class="service-card-cta" data-service="avaluos">Cotizar Avalúo Técnico →</a>
+            </div>
           </article>
 
           <!-- TARJETA 2: TOPOGRAFÍA -->
           <article id="servicio-topografia" class="service-card">
-            <div class="service-card-top">
-              <div class="service-icon-box">
-                <svg class="service-icon-svg" role="img" aria-label="Ícono de levantamientos topográficos con GNSS RTK, dron y SIG" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="service-card-media">
+              <img src="./assets/images/servicio-topografia.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/servicio-topografia.png';"
+                   alt="Levantamientos topográficos de alta precisión con equipos GNSS RTK, fotogrametría con dron RPAS y cartografía SIG en terreno colombiano"
+                   loading="lazy" width="600" height="240">
+              <div class="service-media-overlay"></div>
+              <span class="service-norm-tag">Equipos GNSS/RTK • Dron (RPAS) • Cartografía Digital</span>
+              <div class="service-icon-box service-icon-floating">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de levantamientos topográficos con GNSS RTK, dron y SIG" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <circle cx="12" cy="10" r="3"/>
                   <circle cx="12" cy="10" r="7"/>
                   <path d="M12 2v2"/>
@@ -241,74 +318,170 @@
                   <path d="M8 22l4-5 4 5"/>
                 </svg>
               </div>
-              <span class="service-norm-tag">Equipos GNSS/RTK • Dron (RPAS) • Cartografía Digital</span>
             </div>
-            <h3 class="service-card-title">Topografía de Precisión, Fotogrametría y SIG</h3>
-            <p class="service-card-desc">
-              Ejecución de <strong>levantamientos topográficos</strong> urbanos y rurales amarrados a la red geodésica nacional mediante receptores satelitales <strong>GNSS/RTK</strong> de doble frecuencia y estaciones totales. Integramos captura aerofotogramétrica con <strong>dron (RPAS)</strong>, generación de ortofotomosaicos, Modelos Digitales de Terreno (MDT/MDS), cartografía temática y estructuración de bases de datos en <strong>Sistemas de Información Geográfica (SIG)</strong> bajo estándares del Catastro Multipropósito.
-            </p>
-            <ul class="service-scope-list">
-              <li>Levantamientos planimétricos, altimétricos y georreferenciación con tecnología GNSS/RTK.</li>
-              <li>Fotogrametría aérea con dron (RPAS), curvas de nivel de alta densidad y cálculo de volúmenes.</li>
-              <li>Producción de cartografía oficial, planos georreferenciados y análisis espacial en entornos SIG.</li>
-            </ul>
-            <a href="#contacto" class="service-card-cta" data-service="topografia">Solicitar Levantamiento →</a>
+
+            <div class="service-card-body">
+              <h3 class="service-card-title">Topografía de Precisión, Fotogrametría y SIG</h3>
+              <p class="service-card-desc">
+                Ejecución de <strong>levantamientos topográficos</strong> urbanos y rurales amarrados a la red geodésica nacional con receptores <strong>GNSS/RTK</strong> de doble frecuencia, captura aerofotogramétrica con <strong>dron (RPAS)</strong>, cartografía digital y estructuración en <strong>SIG</strong>.
+              </p>
+
+              <!-- Chips Técnicos Escaneables -->
+              <ul class="service-chips" aria-label="Alcances en Topografía">
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Georreferenciación GNSS/RTK</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Fotogrametría Dron (RPAS)</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Ortofotomosaicos y MDT/MDS</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Cartografía Oficial y SIG</li>
+              </ul>
+
+              <a href="#contacto" class="service-card-cta" data-service="topografia">Solicitar Levantamiento →</a>
+            </div>
           </article>
 
           <!-- TARJETA 3: TRÁMITES PREDIALES Y GESTIÓN CATASTRAL -->
           <article id="servicio-tramites-prediales" class="service-card">
-            <div class="service-card-top">
-              <div class="service-icon-box">
-                <svg class="service-icon-svg" role="img" aria-label="Ícono de trámites prediales, gestión catastral y Resolución Conjunta 1101" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="service-card-media">
+              <img src="./assets/images/servicio-catastro.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/servicio-catastro.png';"
+                   alt="Ortofotomosaico aéreo con poligonales catastrales, actualización de linderos y trámites prediales bajo Resolución Conjunta 1101 IGAC SNR"
+                   loading="lazy" width="600" height="240">
+              <div class="service-media-overlay"></div>
+              <span class="service-norm-tag">Resolución Conjunta 1101 (IGAC - SNR) • Saneamiento</span>
+              <div class="service-icon-box service-icon-floating">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de trámites prediales, gestión catastral y Resolución Conjunta 1101" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
                   <line x1="9" y1="3" x2="9" y2="18"/>
                   <line x1="15" y1="6" x2="15" y2="21"/>
                 </svg>
               </div>
-              <span class="service-norm-tag">Resolución Conjunta 1101 (IGAC - SNR) • Saneamiento Predial</span>
             </div>
-            <h3 class="service-card-title">Trámites Prediales y Gestión Catastral</h3>
-            <p class="service-card-desc">
-              Gestión integral ante gestores catastrales, notarías y Oficinas de Registro de Instrumentos Públicos para armonizar la realidad física del inmueble con su realidad jurídica. Especialistas en procedimientos de precisión bajo la <strong>Resolución Conjunta 1101</strong>, garantizando el éxito técnico-legal en la modificación, división, agrupación y saneamiento de la propiedad raíz.
-            </p>
-            <ul class="service-scope-list">
-              <li>Rectificaciones y actualizaciones de áreas y linderos registrales (<strong>Resolución Conjunta 1101</strong> IGAC - SNR).</li>
-              <li>Deslindes y amojonamientos técnicos en terreno, constitución e imposición de servidumbres.</li>
-              <li>Proyectos de loteos, parcelaciones, englobes y desenglobes prediales.</li>
-              <li>Estudios de títulos exhaustivos y trazabilidad histórico-registral de predios.</li>
-            </ul>
-            <a href="#contacto" class="service-card-cta" data-service="tramites-prediales">Iniciar Trámite Predial →</a>
+
+            <div class="service-card-body">
+              <h3 class="service-card-title">Trámites Prediales y Gestión Catastral</h3>
+              <p class="service-card-desc">
+                Gestión integral ante gestores catastrales, notarías y Oficinas de Registro de Instrumentos Públicos para armonizar la realidad física del inmueble con su realidad jurídica bajo la <strong>Resolución Conjunta 1101</strong> (IGAC - SNR).
+              </p>
+
+              <!-- Chips Técnicos Escaneables -->
+              <ul class="service-chips" aria-label="Alcances en Trámites Prediales">
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Rectificación Áreas y Linderos (1101)</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Englobes, Desenglobes y Loteos</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Deslindes y Servidumbres</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Estudios Técnicos de Títulos</li>
+              </ul>
+
+              <a href="#contacto" class="service-card-cta" data-service="tramites-prediales">Iniciar Trámite Predial →</a>
+            </div>
           </article>
 
           <!-- TARJETA 4: LEGALIZACIÓN Y CONSULTORÍA -->
           <article id="servicio-legalizacion" class="service-card">
-            <div class="service-card-top">
-              <div class="service-icon-box">
-                <svg class="service-icon-svg" role="img" aria-label="Ícono de legalización de construcciones y consultoría normativa POT" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <div class="service-card-media">
+              <img src="./assets/images/servicio-legalizacion.jpg"
+                   onerror="this.onerror=null; this.src='./assets/images/servicio-legalizacion.png';"
+                   alt="Planos estructurales, modelamiento urbano 3D, legalización de construcciones y consultoría normativa POT ante Curadurías Urbanas"
+                   loading="lazy" width="600" height="240">
+              <div class="service-media-overlay"></div>
+              <span class="service-norm-tag">Normativa POT • Curadurías Urbanas • Viabilidad</span>
+              <div class="service-icon-box service-icon-floating">
+                <svg class="service-icon-svg" role="img" aria-label="Ícono de legalización de construcciones y consultoría normativa POT" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
                   <path d="M9 15l2 2 4-4"/>
                 </svg>
               </div>
-              <span class="service-norm-tag">Normativa POT • Curadurías Urbanas • Viabilidad Predial</span>
             </div>
-            <h3 class="service-card-title">Legalización Urbanística y Consultoría Técnica</h3>
-            <p class="service-card-desc">
-              Asesoría técnica y jurídica especializada para la regularización de desarrollos constructivos y el análisis de viabilidad normativa del suelo. Evaluamos las determinantes de los <strong>Planes de Ordenamiento Territorial (POT)</strong>, realizamos diagnóstico de folios de matrícula inmobiliaria y estructuramos expedientes técnicos ante <strong>Curadurías Urbanas</strong> y secretarías de planeación municipal.
-            </p>
-            <ul class="service-scope-list">
-              <li>Reconocimiento y legalización de construcciones existentes ante Curadurías Urbanas.</li>
-              <li>Revisión técnica y jurídica de folios de matrícula inmobiliaria y gravámenes.</li>
-              <li>Análisis estructural básico y levantamiento arquitectónico para trámites de licenciamiento.</li>
-              <li>Consultoría especializada en normas urbanísticas del POT, usos del suelo y edificabilidad.</li>
-            </ul>
-            <a href="#contacto" class="service-card-cta" data-service="legalizacion">Consultar Viabilidad →</a>
+
+            <div class="service-card-body">
+              <h3 class="service-card-title">Legalización Urbanística y Consultoría Técnica</h3>
+              <p class="service-card-desc">
+                Asesoría técnica y jurídica especializada para la regularización de desarrollos constructivos, revisión de folios de matrícula inmobiliaria, análisis de determinantes del <strong>POT</strong> y estructuración de expedientes ante <strong>Curadurías Urbanas</strong>.
+              </p>
+
+              <!-- Chips Técnicos Escaneables -->
+              <ul class="service-chips" aria-label="Alcances en Legalización">
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Legalización de Construcciones</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Consultoría Normativa POT</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Diagnóstico de Matrículas</li>
+                <li class="service-chip"><span class="chip-dot" aria-hidden="true">✓</span> Análisis Estructural Básico</li>
+              </ul>
+
+              <a href="#contacto" class="service-card-cta" data-service="legalizacion">Consultar Viabilidad →</a>
+            </div>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- 4. SECCIÓN DE CONTACTO (#contacto) -->
+    <!-- 4. NUEVA SECCIÓN GALERÍA BENTO GRID — TECNOLOGÍA Y OPERACIÓN EN CAMPO (#galeria) -->
+    <section id="galeria" class="section gallery-section" aria-labelledby="gallery-title">
+      <div class="container">
+        <header class="section-header text-center">
+          <span class="section-eyebrow">TECNOLOGÍA Y OPERACIÓN EN CAMPO</span>
+          <h2 id="gallery-title" class="section-title">Ingeniería Geoespacial y Precisión Técnica en Acción</h2>
+          <p class="section-description">
+            Combinamos instrumentación satelital de última generación con rigor jurídico-catastral para entregar dictámenes y levantamientos con validez oficial en toda Colombia.
+          </p>
+        </header>
+
+        <!-- Mosaico Visual Bento Grid (4 Fotografías con Overlay Gradiente --azul-corporativo) -->
+        <div class="bento-grid">
+          <!-- BENTO ITEM 1: GNSS/RTK (Destacado 2 filas) -->
+          <figure class="bento-item bento-item-featured">
+            <img src="./assets/images/hero-topografia-colombia.jpg"
+                 onerror="this.onerror=null; this.src='./assets/images/hero-topografia-colombia.png';"
+                 alt="Operación en campo con receptores satelitales GNSS RTK de precisión milimétrica y estación total amarrados a la red MAGNA-SIRGAS"
+                 loading="lazy" width="700" height="560">
+            <figcaption class="bento-overlay">
+              <span class="bento-tag">GEODESIA SATELITAL</span>
+              <h3>Operación GNSS/RTK de Precisión Milimétrica</h3>
+              <p>Posicionamiento en tiempo real amarrado a la red MAGNA-SIRGAS para control geodésico urbano y rural.</p>
+            </figcaption>
+          </figure>
+
+          <!-- BENTO ITEM 2: DRON RPAS (Horizontal ancho) -->
+          <figure class="bento-item bento-item-wide">
+            <img src="./assets/images/servicio-topografia.jpg"
+                 onerror="this.onerror=null; this.src='./assets/images/servicio-topografia.png';"
+                 alt="Mapeo aerofotogramétrico con dron RPAS y generación de Modelos Digitales de Terreno para topografía rural y urbana en Colombia"
+                 loading="lazy" width="700" height="320">
+            <figcaption class="bento-overlay">
+              <span class="bento-tag">AEROFOTOGRAMETRÍA RPAS</span>
+              <h3>Fotogrametría con Dron (RPAS) y Modelos Digitales de Terreno</h3>
+              <p>Ortofotomosaicos centimétricos, cálculo volumétrico y modelamiento topográfico de grandes extensiones.</p>
+            </figcaption>
+          </figure>
+
+          <!-- BENTO ITEM 3: CARTOGRAFÍA Y SIG -->
+          <figure class="bento-item">
+            <img src="./assets/images/servicio-catastro.jpg"
+                 onerror="this.onerror=null; this.src='./assets/images/servicio-catastro.png';"
+                 alt="Análisis espacial en Sistemas de Información Geográfica SIG y cartografía predial bajo Resolución Conjunta 1101"
+                 loading="lazy" width="500" height="320">
+            <figcaption class="bento-overlay">
+              <span class="bento-tag">CATASTRO MULTIPROPÓSITO</span>
+              <h3>Cartografía Catastral y SIG (Resolución Conjunta 1101)</h3>
+              <p>Estructuración de bases geográficas y planos protocolizables ante IGAC, gestores catastrales y SNR.</p>
+            </figcaption>
+          </figure>
+
+          <!-- BENTO ITEM 4: AVALÚOS RESOLUCIÓN 941 -->
+          <figure class="bento-item">
+            <img src="./assets/images/servicio-avaluos.jpg"
+                 onerror="this.onerror=null; this.src='./assets/images/servicio-avaluos.png';"
+                 alt="Inspección técnica para avalúos comerciales urbanos, rurales e industriales bajo Resolución 941 de 2026 del IGAC"
+                 loading="lazy" width="500" height="320">
+            <figcaption class="bento-overlay">
+              <span class="bento-tag">VALUACIÓN CERTIFICADA</span>
+              <h3>Avalúos Urbanos, Rurales e Industriales (Resolución 941 de 2026)</h3>
+              <p>Dictámenes corporativos, comerciales y judiciales con rigor metodológico y estadístico.</p>
+            </figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5. SECCIÓN DE CONTACTO (#contacto) -->
     <section id="contacto" class="section contact-section bg-light" aria-labelledby="contact-title">
       <div class="container contact-grid">
         <!-- Columna Izquierda: Información Institucional y Teléfonos Directivos -->
@@ -434,6 +607,7 @@
           <li><a href="#servicio-topografia">Topografía GNSS/RTK y Dron</a></li>
           <li><a href="#servicio-tramites-prediales">Trámites Prediales (Res. Conjunta 1101)</a></li>
           <li><a href="#servicio-legalizacion">Legalización y Consultoría POT</a></li>
+          <li><a href="#galeria">Tecnología y Operación en Campo</a></li>
         </ul>
       </nav>
 

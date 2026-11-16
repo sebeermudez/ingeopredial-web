@@ -1,254 +1,279 @@
-# Especificación de Diseño UI/UX y Arquitectura Semántica (Wireframe) — INGEOPREDIAL S.A.S.
+# Especificación de Diseño UI/UX y Arquitectura Semántica (Wireframe v2.0 — Rediseño Rico en Imágenes) — INGEOPREDIAL S.A.S.
 
 > **Documento Oficial del Agente Diseñador UI/UX (`disenador`)**  
-> Arquitectura de información, jerarquía visual Mobile-First, sistema de tokens CSS3, selección de activos gráficos e implementación semántica HTML5 alineada estrictamente con `directrices.md` y `copywriting.md`.
+> Arquitectura de información, diagnóstico de densidad visual, jerarquía Mobile-First, sistema de tokens CSS3, catálogo ampliado de activos fotográficos e implementación semántica HTML5 alineada estrictamente con `directrices.md` y `copywriting.md`.
+
+---
+
+## 0. Diagnóstico UX/UI: ¿Por qué la versión anterior se percibía cargada de texto?
+
+Tras auditar la primera iteración del sitio a partir del feedback del usuario (*"siento que a la página le hacen falta más imágenes, me gusta, pero siento que se ve como si todo fuera texto"*), se identificaron **4 causas estructurales de fatiga visual**:
+
+1. **Baja proporción Imagen vs. Texto (Ratio 15/85):** Toda la página contaba únicamente con **2 fotografías visibles** (una oculta tras el overlay oscuro del Hero al 78% y una sola imagen lateral en `#nosotros`). El 85% restante del scroll vertical consistía en bloques tipográficos extensos.
+2. **Hero Section plano en pantallas grandes:** Aunque existía una imagen de fondo con overlay `--azul-corporativo`, la ausencia de una imagen nítida en primer plano (Split Hero) hacía que la primera pantalla se percibiera como un cartel de solo texto.
+3. **Tarjetas de Servicios (`#servicios`) con efecto "Muro de Texto":** Las 4 tarjetas carecían de apoyo fotográfico superior y acumulaban simultáneamente etiqueta normativa, título `<h3>`, un párrafo denso de 45+ palabras y una lista de 3 a 4 viñetas largas.
+4. **Ausencia de pausa visual entre Servicios y Contacto:** Pasar directamente de 4 tarjetas llenas de texto técnico a un formulario de 6 campos con bloques informativos saturaba la lectura sin mostrar la **operación real en campo** (equipos GNSS/RTK, vuelos de dron RPAS, cartografía SIG y dictámenes valuatorios).
+
+### Solución de Rediseño Visual (v2.0 — Equilibrio 50% Visual / 50% Técnico):
+- **Split Hero con Tarjeta Fotográfica Nítida Lateral:** Mantiene el fondo inmersivo con overlay `--azul-corporativo` (78%), pero añade a la derecha una composición fotográfica nítida de operación geodésica con *badges* flotantes de telemetría y normativa (`Precisión RTK`, `Normativa IGAC 2026`).
+- **Collage Técnico de Doble Imagen + Métricas Visuales en `#nosotros`:** Sustituye la imagen única por una composición superpuesta (planos catastrales + levantamiento GNSS en campo) acompañada de **3 tarjetas de métricas de impacto visual** (`100% Cumplimiento IGAC/SNR`, `Cobertura Nacional`, `3 Directores Ingenieros Catastrales y Geodestas`).
+- **Tarjetas de Servicios (`#servicios`) con Cabecera Fotográfica + Badge SVG Flotante + Chips Escaneables:** Cada tarjeta incorpora un header fotográfico de `210px` de alto (`./assets/images/servicio-avaluos.png`, `servicio-topografia.png`, `servicio-catastro.png`, `servicio-legalizacion.png`), conserva el ícono vectorial minimalista SVG en `--verde-corporativo` dentro de un badge flotante sobre la esquina de la foto, y sintetiza los alcances mediante **chips/etiquetas visuales** limpias y escaneables.
+- **Nueva Sección Galería Bento Grid (`#galeria` — "Tecnología y Operación en Campo"):** Un mosaico visual de 4 fotografías técnicas de alto impacto con leyendas breves sobre gradiente `--azul-corporativo` ubicado estratégicamente entre `#servicios` y `#contacto`.
 
 ---
 
 ## 1. Sistema de Diseño y Tokens Visuales (CSS3 Custom Properties)
 
-El diseño se rige por una estética **institucional, limpia, técnica y minimalista**, proyectando autoridad ingenieril y seguridad jurídica. El Agente Desarrollador debe declarar y emplear de forma obligatoria las siguientes variables en `:root`:
+El rediseño preserva de forma **estricta e inalterable** las 4 variables corporativas oficiales en `:root`, complementándolas con tokens para contenedores multimedia, superposiciones fotográficas y etiquetas tipo *chip*:
 
 ```css
 :root {
   /* Paleta Corporativa Estricta (Obligatoria por Directrices) */
-  --blanco-fondo: #ffffff;       /* Fondo principal de la página, tarjetas sobre fondo gris y textos sobre fondos oscuros */
-  --gris-claro: #f4f7f6;         /* Alternancia de fondo en secciones (#nosotros, #contacto) y fondos de inputs para descanso visual */
-  --azul-corporativo: #0d2b45;   /* Títulos (h1-h4), textos principales, Header, Overlay Hero (con opacidad) y Footer */
-  --verde-corporativo: #2d8a39;  /* Exclusivo para botones CTA primarios, íconos SVG de servicios, badges y detalles de acento */
+  --blanco-fondo: #ffffff;       /* Fondo principal de la página, tarjetas y textos sobre fondos oscuros */
+  --gris-claro: #f4f7f6;         /* Alternancia de fondo en secciones (#nosotros, #contacto) y chips técnicos */
+  --azul-corporativo: #0d2b45;   /* Títulos (h1-h4), textos principales, Header, Overlays y Footer */
+  --verde-corporativo: #2d8a39;  /* Exclusivo para botones CTA, íconos SVG de servicios, badges y acentos */
 
-  /* Variaciones Funcionales Derivadas (Transparencias de la misma paleta) */
+  /* Variaciones Funcionales Derivadas (Transparencias de la misma paleta oficial) */
   --azul-overlay-hero: rgba(13, 43, 69, 0.78);      /* Overlay de Hero Section entre 75% y 80% de opacidad */
-  --azul-texto-secundario: rgba(13, 43, 69, 0.82);  /* Párrafos de cuerpo para lectura descansada manteniendo identidad */
-  --azul-borde-sutil: rgba(13, 43, 69, 0.12);       /* Líneas divisorias y bordes de tarjetas / inputs */
-  --verde-acento-suave: rgba(45, 138, 57, 0.10);    /* Fondo tenue para contenedores de íconos SVG y etiquetas normativas */
+  --azul-gradiente-bento: linear-gradient(180deg, rgba(13, 43, 69, 0.08) 0%, rgba(13, 43, 69, 0.90) 100%);
+  --azul-gradiente-card: linear-gradient(180deg, rgba(13, 43, 69, 0.05) 0%, rgba(13, 43, 69, 0.55) 100%);
+  --azul-texto-secundario: rgba(13, 43, 69, 0.82);  /* Párrafos de cuerpo para lectura descansada */
+  --azul-borde-sutil: rgba(13, 43, 69, 0.12);       /* Bordes de tarjetas, chips e inputs */
+  --verde-acento-suave: rgba(45, 138, 57, 0.10);    /* Fondo tenue para chips y badges normativos */
   --verde-hover: #236e2d;                           /* Estado :hover / :focus para botones en --verde-corporativo */
 
-  /* Tipografía y Ritmo Vertical */
+  /* Tipografía, Dimensiones y Sombras */
   --font-principal: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
   --font-titulos: 'Montserrat', 'Inter', sans-serif;
-  --max-width-container: 1200px;
+  --max-width-container: 1240px;
   --header-height-mobile: 72px;
   --header-height-desktop: 84px;
-  --border-radius-card: 10px;
-  --border-radius-btn: 6px;
-  --shadow-card: 0 6px 24px rgba(13, 43, 69, 0.07);
-  --shadow-card-hover: 0 12px 32px rgba(13, 43, 69, 0.14);
-  --transition-base: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  --border-radius-card: 14px;
+  --border-radius-media: 12px;
+  --border-radius-chip: 999px;
+  --border-radius-btn: 8px;
+  --shadow-card: 0 8px 28px rgba(13, 43, 69, 0.08);
+  --shadow-card-hover: 0 16px 38px rgba(13, 43, 69, 0.15);
+  --shadow-floating-badge: 0 10px 25px rgba(13, 43, 69, 0.22);
+  --transition-base: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 ```
 
-### Reglas Globales de Comportamiento y Desplazamiento
-- **Desplazamiento suave nativo:**
-  ```css
-  html {
-    scroll-behavior: smooth;
-    scroll-padding-top: var(--header-height-desktop); /* Evita que el Sticky Header oculte los títulos al navegar por anclas */
-  }
-  ```
-- **Alternancia Cromática de Secciones (Descanso Visual):**
-  1. `<header>`: Fondo `--blanco-fondo` (`#ffffff`) con borde inferior sutil `1px solid var(--azul-borde-sutil)` y sombra ligera al hacer scroll.
-  2. `<section id="inicio">` (Hero): Imagen temática de fondo + Overlay `--azul-corporativo` al **78% de opacidad** (`rgba(13, 43, 69, 0.78)`), textos en `--blanco-fondo` (`#ffffff`) y acentos en `--verde-corporativo` (`#2d8a39`).
-  3. `<section id="nosotros">`: Fondo `--gris-claro` (`#f4f7f6`).
-  4. `<section id="servicios">`: Fondo `--blanco-fondo` (`#ffffff`), con tarjetas (`<article>`) en `--blanco-fondo` bordeadas y acentuadas con `--verde-corporativo`.
-  5. `<section id="contacto">`: Fondo `--gris-claro` (`#f4f7f6`), con tarjeta de formulario en `--blanco-fondo` (`#ffffff`).
-  6. `<footer>`: Fondo `--azul-corporativo` (`#0d2b45`), textos en `--blanco-fondo` (`#ffffff`) y detalles de acento en `--verde-corporativo` (`#2d8a39`).
+### Alternancia Cromática y Ritmo Visual de Secciones
+1. `<header>`: Fondo `--blanco-fondo` (`#ffffff`) Sticky con sombra sutil.
+2. `<section id="inicio">` (**Split Hero**): Fondo fotográfico con overlay `--azul-corporativo` al 78% + **Tarjeta Fotográfica Destacada Lateral** a todo color con indicadores técnicos flotantes.
+3. `<section id="nosotros">` (**Collage + Métricas**): Fondo `--gris-claro` (`#f4f7f6`), composición de **doble imagen** a la derecha y barra de **3 tarjetas de métricas visuales**.
+4. `<section id="servicios">` (**Cards Fotográficas + SVG Flotante + Chips**): Fondo `--blanco-fondo` (`#ffffff`), cuadrícula 2x2 de tarjetas con cabecera fotográfica (`210px`), badge flotante con ícono SVG en `--verde-corporativo` y síntesis por chips.
+5. `<section id="galeria">` (**Bento Grid "Tecnología y Operación en Campo"**): Fondo `--blanco-fondo` con contenedor envolvente en `--gris-claro` o transición limpia hacia un **mosaico Bento de 4 fotografías técnicas** con leyendas superpuestas en gradiente `--azul-corporativo`.
+6. `<section id="contacto">`: Fondo `--gris-claro` (`#f4f7f6`), tarjetas informativas directivas y formulario en `--blanco-fondo` (`#ffffff`).
+7. `<footer>`: Fondo `--azul-corporativo` (`#0d2b45`), textos en `--blanco-fondo` (`#ffffff`) y acentos en `--verde-corporativo` (`#2d8a39`).
 
 ---
 
-## 2. Selección de Activos Visuales y URLs de Imágenes (Unsplash + Rutas Locales)
+## 2. Catálogo Ampliado de Activos Visuales (11 Imágenes Técnicas + Logo Transparente)
 
-Siguiendo estrictamente la directriz de utilizar rutas relativas `./assets/images/` para el logo y fotografías técnicas de alta resolución (Unsplash) vinculadas exclusivamente a `topography`, `surveying`, `GNSS`, `blueprints` y `drone mapping`:
+Para eliminar la sensación de "página de solo texto", el sitio pasa de 2 a **11 activos fotográficos técnicos** distribuidos estratégicamente. Se especifican tanto las rutas locales en `./assets/images/` como las URLs de alta resolución de Unsplash (estrictamente sobre `topography`, `surveying`, `GNSS`, `blueprints`, `real estate` y `drone mapping`) para que el Agente Desarrollador descargue o vincule los archivos locales garantizando carga al 100%:
 
-| Activo Visual | Ubicación en DOM | Ruta / URL Seleccionada | Atributo `alt` (según `copywriting.md`) |
-| :--- | :--- | :--- | :--- |
-| **Logo Corporativo (Header)** | `<header> .brand-logo img` | `./assets/images/logo-ingeopredial.png` *(PNG RGBA 398×412 px con fondo 100% transparente `alpha = 0`)* | `"Logo oficial de INGEOPREDIAL S.A.S. - Firma de Ingenieros Catastrales y Geodestas en Colombia"` |
-| **Imagen Hero Section (`#inicio`)** | Fondo CSS o `<img>` de fondo en `#inicio` (Temática: *Surveying / GNSS / Topography in field*) | `https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=85` *(Respaldo alternativo: `https://images.unsplash.com/photo-1541888946425-d09bb18086f6?auto=format&fit=crop&w=1920&q=85`)* | `"Ingenieros catastrales y geodestas ejecutando levantamientos topográficos de alta precisión con equipos GNSS RTK y fotogrametría con dron en Colombia"` |
-| **Imagen Sección Nosotros (`#nosotros`)** | `<figure class="about-media"> <img>` (Temática: *Blueprints / Cartography / Engineering plans*) | `https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85` | `"Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial"` |
-| **Logo Corporativo (Footer)** | `<footer> .footer-brand img` | `./assets/images/logo-ingeopredial.png` *(PNG RGBA con fondo transparente)* | `"INGEOPREDIAL S.A.S. - Consultoría en Avalúos Comerciales, Topografía y Gestión Predial"` |
-| **Favicon del Documento** | `<head> <link rel="icon">` | `./assets/images/logo-ingeopredial.png` *(PNG RGBA con fondo transparente)* | N/A |
-
-### 2.1. Especificación Técnica del Logo Oficial con Fondo Transparente (`logo-ingeopredial.png`)
-- **Formato y Dimensiones:** `PNG` en modo de color `RGBA` (`398 × 412 px`).
-- **Transparencia Real (`Alpha = 0`):** Se eliminó por completo el recuadro de fondo gris claro opaco (`RGB(239, 238, 238)`), garantizando que todos los píxeles de fondo exterior e interior tengan valor exacto `RGBA(0, 0, 0, 0)` (`59.94%` de la superficie total completamente transparente).
-- **Descontaminación Cromática y Anti-Aliasing:** Los bordes curvos del arco exterior, el pin de georreferenciación en azul corporativo (`#0d2b45`) y las franjas de terreno en verde corporativo (`#2d8a39`) cuentan con transición suave de canal alfa (`3.09%` de píxeles de borde con anti-aliasing gradual y descontaminación de halo gris), integrándose limpiamente tanto sobre el fondo `--blanco-fondo` (`#ffffff`) del `<header>` como sobre contenedores claros en el `<footer>`.
-- **Rutas Sincronizadas del Activo:**
-  - `/home/antigravity/sebeermudez/ingeopredial-web/logo.png`
-  - `/home/antigravity/sebeermudez/ingeopredial-web/assets/images/logo-ingeopredial.png`
-  - `/home/antigravity/sebeermudez/ingeopredial-web/landing_page/assets/images/logo-ingeopredial.png`
-  - `/home/antigravity/landing_page/assets/images/logo-ingeopredial.png`
-  - `/home/antigravity/Desktop/landing_page/assets/images/logo-ingeopredial.png`
-  - `/home/antigravity/Escritorio/landing_page/assets/images/logo-ingeopredial.png`
+| # | Activo Visual | Ubicación en DOM | Ruta Local Obligatoria (`./assets/images/...`) | Fuente Fotográfica Técnica (Unsplash Fallback / Origen) | Atributo `alt` Técnico y SEO |
+| :- | :--- | :--- | :--- | :--- | :--- |
+| **0** | **Logo Corporativo (Header, Footer, Favicon)** | `<header>`, `<footer>`, `<head>` | `./assets/images/logo-ingeopredial.png` *(con respaldo `.svg`)* | Activo local oficial PNG RGBA (`398×412 px`, fondo 100% transparente) | `"Logo oficial de INGEOPREDIAL S.A.S. - Firma de Ingenieros Catastrales y Geodestas en Colombia"` |
+| **1** | **Fondo Hero Section (`#inicio`)** | `.hero-bg-wrapper img` | `./assets/images/hero-topografia-bg.jpg` *(o URL directa)* | `https://images.unsplash.com/photo-1541888946425-d09bb18086f6?auto=format&fit=crop&w=1920&q=85` | `"Ingenieros catastrales y geodestas ejecutando levantamientos topográficos de alta precisión con equipos GNSS RTK y fotogrametría con dron en Colombia"` |
+| **2** | **Imagen Destacada Lateral Hero (Split Hero Desktop)** | `.hero-visual-showcase img` | `./assets/images/hero-gnss-destacada.jpg` *(o `./assets/images/servicio-topografia.png`)* | `https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85` | `"Operación de receptor geodésico GNSS RTK de precisión milimétrica y control topográfico en campo por INGEOPREDIAL S.A.S."` |
+| **3** | **Nosotros — Imagen Principal (Planos / Ingeniería)** | `.about-collage-primary img` | `./assets/images/nosotros-planos-catastro.jpg` *(o URL directa)* | `https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85` | `"Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial"` |
+| **4** | **Nosotros — Imagen Secundaria (Campo / Geodesia)** | `.about-collage-secondary img` | `./assets/images/nosotros-operacion-campo.jpg` *(o URL directa)* | `https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=85` | `"Ingenieros geodestas realizando verificación técnica de linderos y control geodésico en terreno colombiano"` |
+| **5** | **Tarjeta Servicio 1: Avalúos (`#servicio-avaluos`)** | `.service-card-media img` | `./assets/images/servicio-avaluos.png` | `https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=900&q=85` | `"Avalúos comerciales de inmuebles urbanos, rurales e industriales en Colombia bajo normatividad IGAC y Resolución 941 de 2026"` |
+| **6** | **Tarjeta Servicio 2: Topografía (`#servicio-topografia`)** | `.service-card-media img` | `./assets/images/servicio-topografia.png` | `https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=900&q=85` | `"Levantamientos topográficos de alta precisión con equipos GNSS RTK, fotogrametría con dron RPAS y cartografía SIG"` |
+| **7** | **Tarjeta Servicio 3: Trámites Prediales (`#servicio-tramites-prediales`)** | `.service-card-media img` | `./assets/images/servicio-catastro.png` | `https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=900&q=85` | `"Cartografía catastral, actualización de linderos y trámites prediales bajo Resolución Conjunta 1101 IGAC SNR"` |
+| **8** | **Tarjeta Servicio 4: Legalización (`#servicio-legalizacion`)** | `.service-card-media img` | `./assets/images/servicio-legalizacion.png` | `https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=900&q=85` | `"Planos arquitectónicos, legalización de construcciones y consultoría normativa POT ante Curadurías Urbanas"` |
+| **9** | **Bento Grid 1: Operación GNSS/RTK (`#galeria`)** | `.bento-item-gnss img` | `./assets/images/galeria-gnss.jpg` *(o reutilizar activo de campo de alta resolución)* | `https://images.unsplash.com/photo-1581092335397-9583fe92d232?auto=format&fit=crop&w=1000&q=85` | `"Operación en campo con receptores satelitales GNSS RTK de precisión milimétrica amarrados a la red MAGNA-SIRGAS"` |
+| **10** | **Bento Grid 2: Fotogrametría con Dron RPAS (`#galeria`)** | `.bento-item-dron img` | `./assets/images/galeria-dron.jpg` | `https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1000&q=85` | `"Mapeo aerofotogramétrico con dron RPAS y generación de Modelos Digitales de Terreno para topografía rural y urbana"` |
+| **11** | **Bento Grid 3: Cartografía Catastral y SIG (`#galeria`)** | `.bento-item-sig img` | `./assets/images/galeria-sig.jpg` | `https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=900&q=85` *(o `photo-1524661135-423995f22d0b`)* | `"Análisis espacial en Sistemas de Información Geográfica SIG y cartografía predial bajo Resolución Conjunta 1101"` |
+| **12** | **Bento Grid 4: Avalúos Urbanos, Rurales e Industriales (`#galeria`)** | `.bento-item-avaluos img` | `./assets/images/galeria-avaluos.jpg` | `https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=900&q=85` | `"Inspección técnica para avalúos comerciales urbanos, rurales e industriales bajo Resolución 941 de 2026 del IGAC"` |
 
 ---
 
-## 3. Wireframe Visual (Representación Esquemática Mobile-First vs. Desktop)
+## 3. Wireframe Esquemático Actualizado (v2.0 — Rico en Imágenes)
 
-### 3.1. Vista Mobile (`< 768px` — 1 Columna, Navegación Hamburguesa)
+### 3.1. Vista Mobile (`< 768px` — 1 Columna, Tarjetas Fotográficas y Bento Apilado)
 ```text
-+--------------------------------------------------+
-| [LOGO INGEOPREDIAL]                        [ ☰ ] | <-- <header> Sticky (72px alto)
-+--------------------------------------------------+
-| [Menú Desplegable Móvil - Oculto por defecto]    |
-|  • Inicio  • Nosotros  • Servicios  • Contacto   |
-|  [ Solicitar Cotización ]                        |
-+--------------------------------------------------+
-|  BADGE: INGENIERÍA CATASTRAL, GEODESIA...        | <-- #inicio (Overlay Azul 78%)
-|  H1: Seguridad Jurídica y Precisión Técnica...   |
-|  P: Respaldamos sus decisiones de inversión...   |
-|  [ Solicitar Asesoría Técnica (--verde) ]        |
-|  [ Explorar Portafolio de Servicios ]            |
-|  +--------------------------------------------+  |
-|  | ★ Acceso Directo 1: Avalúos Comerciales    |  |
-|  |   Ver alcance en Avalúos →                 |  |
-|  +--------------------------------------------+  |
-|  | ★ Acceso Directo 2: Topografía GNSS/RTK    |  |
-|  |   Ver alcance en Topografía →              |  |
-|  +--------------------------------------------+  |
-|  ✓ Ingenieros Catastrales | ✓ IGAC & SNR         |
-+--------------------------------------------------+
-|  EYEBROW: RESPALDO INSTITUCIONAL                 | <-- #nosotros (Fondo --gris-claro)
-|  H2: Autoridad Técnica Liderada por 3 Ingenieros |
-|  P: INGEOPREDIAL S.A.S. es una firma...          |
-|  [ Card Pilar 1: Rigor Técnico y Geodésico ]     |
-|  [ Card Pilar 2: Blindaje Normativo y Registral ]|
-|  [ Card Pilar 3: Cobertura Nacional ]            |
-|  [ IMAGEN: Planos / Cartografía / Geodesia ]     |
-+--------------------------------------------------+
-|  EYEBROW: SOLUCIONES INTEGRALES                  | <-- #servicios (Fondo --blanco-fondo)
-|  H2: Nuestro Portafolio Especializado            |
-|  +--------------------------------------------+  |
-|  | [SVG Verde] H3: Avalúos Comerciales        |  | <-- Sin fotos, solo SVG minimalista
-|  | Badge: IGAC • Res. 941 de 2026             |  |
-|  | Descripción + Bullets + CTA →              |  |
-|  +--------------------------------------------+  |
-|  | [SVG Verde] H3: Topografía de Precisión    |  |
-|  +--------------------------------------------+  |
-|  | [SVG Verde] H3: Trámites Prediales (1101)  |  |
-|  +--------------------------------------------+  |
-|  | [SVG Verde] H3: Legalización y Consultoría |  |
-|  +--------------------------------------------+  |
-+--------------------------------------------------+
-|  EYEBROW: ATENCIÓN DIRECTA                       | <-- #contacto (Fondo --gris-claro)
-|  H2: Hable con Nuestro Equipo Directivo          |
-|  [ Bloque Info: Bogotá D.C. + Nacional ]         |
-|  [ Tel: 310-629-1208 / 322-738-9449 / 312... ]   |
-|  [ Formulario de Solicitud Técnica (6 campos) ]  |
-|  [ Botón: Enviar Solicitud (--verde) ]           |
-+--------------------------------------------------+
-|  [LOGO] INGEOPREDIAL S.A.S.                      | <-- <footer> (Fondo --azul-corporativo)
-|  Bogotá D.C. | Teléfonos Directivos              |
-|  © 2026 Todos los derechos reservados.           |
-+--------------------------------------------------+
-                                         (( WA ))  <-- Botón Flotante WhatsApp (Fixed)
++----------------------------------------------------+
+| [LOGO INGEOPREDIAL]                          [ ☰ ] | <-- <header> Sticky (72px)
++----------------------------------------------------+
+| [BADGE: INGENIERÍA CATASTRAL, GEODESIA...]         | <-- #inicio (Overlay Azul 78%)
+| H1: Seguridad Jurídica y Precisión Técnica...      |
+| P: Respaldamos sus decisiones de inversión...      |
+| [ Solicitar Asesoría (--verde) ] [ Ver Servicios ] |
+| +------------------------------------------------+ |
+| | [ FOTO DESTACADA HERO: Operación GNSS/RTK ]    | | <-- Imagen nítida en primer plano
+| | [Badge: Precisión RTK] [Badge: Res. 941 / 2026]| |
+| +------------------------------------------------+ |
+| | ★ Pill Acceso Rápido 1: Avalúos Comerciales →  | |
+| | ★ Pill Acceso Rápido 2: Topografía GNSS/RTK →  | |
+| +------------------------------------------------+ |
++----------------------------------------------------+
+| EYEBROW: RESPALDO INSTITUCIONAL                    | <-- #nosotros (Fondo --gris-claro)
+| H2: Autoridad Técnica Liderada por 3 Ingenieros    |
+| +------------------------------------------------+ |
+| | [ COLLAGE DOBLE IMAGEN: Planos + Campo GNSS ]  | | <-- Collage visual de 2 fotos
+| +------------------------------------------------+ |
+| | [100% IGAC/SNR] [Cobertura Nal] [3 Directores] | | <-- Tarjetas de métricas visuales
+| +------------------------------------------------+ |
+| P síntesis + 3 Pilares con iconos de verificación  |
++----------------------------------------------------+
+| EYEBROW: SOLUCIONES INTEGRALES                     | <-- #servicios (Fondo --blanco-fondo)
+| H2: Nuestro Portafolio Especializado               |
+| +------------------------------------------------+ |
+| | [ FOTO CABECERA: ./assets/images/servicio-...] | | <-- Foto técnica superior (210px)
+| |                              (( [SVG Verde] )) | | <-- Badge flotante con SVG oficial
+| | H3: Avalúos Comerciales, Urbanos y Rurales     | |
+| | [Chip: Urbano/Rural] [Chip: Res. 941] [NIIF]   | | <-- Chips escaneables (menos texto)
+| | Descripción concisa + [ Cotizar Avalúo → ]     | |
+| +------------------------------------------------+ |
+| (Se repite para Topografía, Catastro y Legaliz.)   |
++----------------------------------------------------+
+| EYEBROW: TECNOLOGÍA Y OPERACIÓN EN CAMPO           | <-- #galeria (NUEVO Bento Grid)
+| H2: Ingeniería Geoespacial en Acción               |
+| +------------------------------------------------+ |
+| | [FOTO 1: Operación GNSS/RTK Milimétrica]       | |
+| | [FOTO 2: Fotogrametría con Dron RPAS y MDT]    | |
+| | [FOTO 3: Cartografía Catastral y SIG (1101)]   | |
+| | [FOTO 4: Avalúos Urbanos y Rurales (Res. 941)] | |
+| +------------------------------------------------+ |
++----------------------------------------------------+
+| #contacto (Info Directiva + Formulario 6 campos)   |
++----------------------------------------------------+
+| <footer> (Logo + Especialidades + Teléfonos)       |
++----------------------------------------------------+
 ```
 
-### 3.2. Vista Desktop (`>= 1024px` — Grid Multi-Columna y Sticky Header)
+### 3.2. Vista Desktop (`>= 1024px` — Split Hero, Collage Doble, Cards Fotográficas 2x2 y Bento Grid)
 ```text
-+--------------------------------------------------------------------------------------------------+
-| [LOGO INGEOPREDIAL S.A.S.]              Inicio   Nosotros   Servicios   Contacto   [ Cotizar ]   | <-- Sticky Header
-+--------------------------------------------------------------------------------------------------+
-|                                                                                                  |
-|   [BADGE INSTITUCIONAL]                                                                          |
-|   H1: Seguridad Jurídica y Precisión Técnica para su Patrimonio Inmobiliario y Territorial       |
-|   Subtítulo: Respaldamos sus decisiones de inversión, infraestructura y saneamiento...           |
-|                                                                                                  |
-|   [ Solicitar Asesoría Técnica (Verde) ]   [ Explorar Portafolio de Servicios (Outline) ]        |
-|                                                                                                  |
-|   +---------------------------------------------+  +---------------------------------------------+
-|   | [Icon] Avalúos Comerciales (IGAC / Res 941) |  | [Icon] Topografía GNSS/RTK, Dron y SIG      |
-|   | Dictámenes técnicos de valor comercial...   |  | Georreferenciación milimétrica, mapeo...    |
-|   | Ver alcance en Avalúos →                    |  | Ver alcance en Topografía →                 |
-|   +---------------------------------------------+  +---------------------------------------------+
-|   ✓ Liderado por Ingenieros Catastrales   ✓ Normatividad Vigente IGAC & SNR   ✓ Cobertura Nacional
-+--------------------------------------------------------------------------------------------------+
-| #nosotros (Grid 12 cols: 7 cols texto + 3 pilares / 5 cols imagen técnica con badge de autoridad)|
-+--------------------------------------------------------------------------------------------------+
-| #servicios (Grid 2x2 de Tarjetas de Alto Nivel: Ícono SVG en --verde-corporativo + Detalle)      |
-|  +--------------------------------------------+    +--------------------------------------------+ |
-|  | <article id="servicio-avaluos">            |    | <article id="servicio-topografia">         | |
-|  +--------------------------------------------+    +--------------------------------------------+ |
-|  | <article id="servicio-tramites-prediales"> |    | <article id="servicio-legalizacion">       | |
-|  +--------------------------------------------+    +--------------------------------------------+ |
-+--------------------------------------------------------------------------------------------------+
-| #contacto (Grid 2 columnas asimétricas: 5 cols Información Directiva / 7 cols Formulario Card)   |
-+--------------------------------------------------------------------------------------------------+
-| <footer> (Grid 3 columnas: Identidad + Logo | Navegación Rápida | Contacto Directivo + Copy)     |
-+--------------------------------------------------------------------------------------------------+
++------------------------------------------------------------------------------------------------------+
+| [LOGO INGEOPREDIAL S.A.S.]            Inicio   Nosotros   Servicios   Galería   Contacto  [Cotizar]  |
++------------------------------------------------------------------------------------------------------+
+| #inicio (SPLIT HERO 7 cols / 5 cols sobre Fondo con Overlay --azul-corporativo 78%)                  |
+|                                                                                                      |
+|  [BADGE INSTITUCIONAL]                                 +------------------------------------------+  |
+|  H1: Seguridad Jurídica y Precisión Técnica            | [Badge: Precisión Milimétrica GNSS/RTK]  |  |
+|      para su Patrimonio Inmobiliario...                |                                          |  |
+|  Subtítulo profesional conciso...                      |      [ FOTOGRAFÍA NÍTIDA EN CAMPO:       |  |
+|                                                        |        INGENIERO GEODESTA CON RTK ]      |  |
+|  [ Solicitar Asesoría (Verde) ] [ Explorar Servicios ] |                                          |  |
+|                                                        | [Badge: Normativa IGAC • Res. 941 2026]  |  |
+|  +------------------------+ +------------------------+ +------------------------------------------+  |
+|  | ★ Avalúos Comerciales  | | ★ Topografía GNSS/RTK  |                                               |
+|  |   Ver alcance →        | |   Ver alcance →        |  ✓ 3 Ing. Catastrales | ✓ IGAC & SNR | ✓ Nal. |
+|  +------------------------+ +------------------------+                                               |
++------------------------------------------------------------------------------------------------------+
+| #nosotros (Grid 12 cols: 6 cols Narrativa + 3 Pilares / 6 cols Collage Doble Imagen + 3 KPIs)        |
+|  +-----------------------------------------------+   +--------------------------------------------+  |
+|  | H2: Autoridad Técnica Liderada por Ingenieros |   | [ FOTO 1: Planos e Ingeniería Catastral ]  |  |
+|  | Párrafos institucionales...                   |   |          +-------------------------------+ |  |
+|  | [01 Rigor Geodésico] [02 Blindaje Registral]  |   |          | [ FOTO 2: Trabajo Campo GNSS ]| |  |
+|  | [03 Cobertura Nacional Multipropósito]        |   |          +-------------------------------+ |  |
+|  +-----------------------------------------------+   | [100% IGAC/SNR] [Nacional] [3 Directores]  |  |
+|                                                      +--------------------------------------------+  |
++------------------------------------------------------------------------------------------------------+
+| #servicios (Grid 2x2 de Tarjetas con Cabecera Fotográfica + Ícono SVG Flotante + Chips Visuales)     |
+|  +-----------------------------------------------+   +--------------------------------------------+  |
+|  | [ FOTO: ./assets/images/servicio-avaluos.png ]|   | [ FOTO: ./assets/images/servicio-topo.png ]|  |
+|  | [Tag: IGAC • Res. 941]         (( SVG Verde ))|   | [Tag: GNSS/RTK • Dron]      (( SVG Verde ))|  |
+|  | H3: Avalúos Comerciales, Urbanos y Rurales    |   | H3: Topografía de Precisión, Dron y SIG    |  |
+|  | Párrafo ejecutivo conciso...                  |   | Párrafo ejecutivo conciso...               |  |
+|  | [Chip: Inmuebles Urbanos] [Chip: Predios Rur.]|   | [Chip: Georreferenciación RTK] [Chip: RPAS]|  |
+|  | [Chip: Indemnizaciones & NIIF]                |   | [Chip: Ortofotos y MDT] [Chip: SIG]        |  |
+|  | Cotizar Avalúo Técnico →                      |   | Solicitar Levantamiento →                  |  |
+|  +-----------------------------------------------+   +--------------------------------------------+  |
+|  | [ FOTO: ./assets/images/servicio-catastro.png]|   | [ FOTO: ./assets/images/servicio-legal.png]|  |
+|  | (Trámites Prediales y Gestión Catastral 1101) |   | (Legalización Urbanística y Consultoría)   |  |
+|  +-----------------------------------------------+   +--------------------------------------------+  |
++------------------------------------------------------------------------------------------------------+
+| #galeria (NUEVA SECCIÓN: Bento Grid Asimétrico de 4 Fotografías con Gradiente --azul-corporativo)    |
+|  +-----------------------------------------------+   +--------------------+  +--------------------+  |
+|  | [ BENTO 1 (Grande 6 cols x 2 filas):          |   | [ BENTO 2 (6 cols): |  | (Continuación)     |  |
+|  |   Operación GNSS/RTK de Precisión Milimétrica |   |   Fotogrametría     |  |                    |  |
+|  |   Amarrada a Red MAGNA-SIRGAS ]               |   |   con Dron (RPAS) ] |  |                    |  |
+|  |                                               |   +--------------------+  +--------------------+  |
+|  |                                               |   | [ BENTO 3 (3 cols): |  | [ BENTO 4 (3 cols):|  |
+|  |                                               |   |   Cartografía SIG   |  |   Avalúos Res. 941 |  |
+|  |                                               |   |   Res. 1101 ]       |  |   Urbanos/Rurales ]|  |
+|  +-----------------------------------------------+   +--------------------+  +--------------------+  |
++------------------------------------------------------------------------------------------------------+
+| #contacto (5 cols Información Directiva + 7 cols Formulario) + <footer> + Botón Flotante WhatsApp    |
++------------------------------------------------------------------------------------------------------+
 ```
 
 ---
 
-## 4. Arquitectura Semántica del DOM (Especificación HTML5 Exacta)
-
-El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente esta jerarquía semántica (`<header>`, `<main>`, `<section>`, `<article>`, `<nav>`, `<aside>`, `<footer>`):
+## 4. Especificación Semántica Detallada por Sección (HTML5 + Reglas UI/UX)
 
 ### 4.1. Encabezado (`<header class="site-header">`)
-- **Comportamiento:** `position: sticky; top: 0; z-index: 1000; background-color: var(--blanco-fondo);`
-- **Estructura DOM:**
-```html
-<header class="site-header" id="top">
-  <div class="container header-container">
-    <!-- Logo en el extremo izquierdo -->
-    <a href="#inicio" class="brand-logo" aria-label="Ir al inicio de INGEOPREDIAL S.A.S.">
-      <img src="./assets/images/logo-ingeopredial.png" 
-           alt="Logo oficial de INGEOPREDIAL S.A.S. - Firma de Ingenieros Catastrales y Geodestas en Colombia" 
-           width="180" height="52">
-      <span class="brand-name">INGEOPREDIAL <small>S.A.S.</small></span>
-    </a>
-
-    <!-- Botón Menú Hamburguesa (Visible en Mobile < 992px) -->
-    <button class="nav-toggle" id="navToggle" type="button" 
-            aria-expanded="false" aria-controls="primaryNav" 
-            aria-label="Abrir menú de navegación principal">
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-      <span class="hamburger-line"></span>
-    </button>
-
-    <!-- Barra de Navegación Principal -->
-    <nav class="primary-nav" id="primaryNav" aria-label="Navegación principal">
-      <ul class="nav-list">
-        <li><a href="#inicio" class="nav-link">Inicio</a></li>
-        <li><a href="#nosotros" class="nav-link">Nosotros</a></li>
-        <li><a href="#servicios" class="nav-link">Servicios</a></li>
-        <li><a href="#contacto" class="nav-link">Contacto</a></li>
-      </ul>
-      <a href="#contacto" class="btn btn-primary btn-header-cta">Solicitar Cotización</a>
-    </nav>
-  </div>
-</header>
-```
+Se mantiene el Sticky Header en `--blanco-fondo` con el logo transparente `./assets/images/logo-ingeopredial.png` a la izquierda y se agrega el enlace opcional `Galería` (`#galeria`) o se conserva la navegación limpia (`Inicio`, `Nosotros`, `Servicios`, `Tecnología`, `Contacto`) junto al CTA `Solicitar Cotización`.
 
 ---
 
-### 4.2. Contenedor Principal (`<main id="main-content">`)
+### 4.2. Hero Section (`#inicio`) con Imagen Destacada Lateral (Split Hero en Desktop)
 
-#### A. Sección Hero (`<section id="inicio" class="hero-section">`)
-- **Regla Visual Crítica:** Imagen de fondo (`topography` / `GNSS`) cubierta por un overlay en `--azul-corporativo` (`#0d2b45`) con opacidad del **78%** (`rgba(13, 43, 69, 0.78)`), garantizando un ratio de contraste AAA (> 10:1) con el texto en `--blanco-fondo` (`#ffffff`).
-- **Visibilidad en Primera Pantalla:** Incluye tanto los dos botones CTA generales como las **2 tarjetas de acceso directo rápido** a los servicios principales (**Avalúos** y **Topografía**).
-- **Estructura DOM:**
+#### Cambios Clave de UI/UX:
+1. **Fondo General + Overlay Corporativo:** Se conserva la imagen de fondo a pantalla completa cubierta por `--azul-overlay-hero` (`rgba(13, 43, 69, 0.78)`) para garantizar contraste AAA del texto blanco.
+2. **Columna Derecha Fotográfica (`.hero-visual-col`):** En pantallas `>= 992px`, el Hero se divide en un grid de 12 columnas (`7 columnas` para el bloque editorial y `5 columnas` para una **tarjeta fotográfica flotante de alta nitidez**). En móvil se muestra debajo de los botones CTA principales.
+3. **Indicadores Técnicos Flotantes (`.hero-floating-badge`):** Sobre el marco fotográfico derecho se superponen dos píldoras técnicas con estética de instrumentación geodésica:
+   - **Superior derecha:** Punto indicador verde pulsante + `"Precisión GNSS/RTK Milimétrica"`
+   - **Inferior izquierda:** Ícono de verificación + `"Normativa IGAC 2026 • Res. 941 & 1101"`
+
+#### Estructura Semántica DOM (`#inicio`):
 ```html
 <section id="inicio" class="hero-section" aria-labelledby="hero-title">
-  <!-- Imagen de fondo semántica con atributo alt requerido por directrices -->
+  <!-- Fondo general con overlay --azul-corporativo al 78% -->
   <div class="hero-bg-wrapper">
-    <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1920&q=85" 
+    <img src="./assets/images/servicio-topografia.png" 
          alt="Ingenieros catastrales y geodestas ejecutando levantamientos topográficos de alta precisión con equipos GNSS RTK y fotogrametría con dron en Colombia" 
          class="hero-bg-image" fetchpriority="high">
     <div class="hero-overlay"></div>
   </div>
 
   <div class="container hero-container">
-    <div class="hero-content">
-      <span class="eyebrow-badge">INGENIERÍA CATASTRAL, GEODESIA Y CONSULTORÍA PREDIAL EN COLOMBIA</span>
-      <h1 id="hero-title">Seguridad Jurídica y Precisión Técnica para su Patrimonio Inmobiliario y Territorial</h1>
-      <p class="hero-subtitle">
-        Respaldamos sus decisiones de inversión, infraestructura y saneamiento de la propiedad mediante avalúos comerciales certificados, levantamientos topográficos de alta precisión y gestión integral del territorio bajo estricto cumplimiento de la normatividad IGAC y SNR.
-      </p>
+    <!-- Layout Split Hero (Texto Izquierda / Imagen Nítida Derecha) -->
+    <div class="hero-split-grid">
+      <div class="hero-content">
+        <span class="eyebrow-badge">INGENIERÍA CATASTRAL, GEODESIA Y CONSULTORÍA PREDIAL EN COLOMBIA</span>
+        <h1 id="hero-title">Seguridad Jurídica y Precisión Técnica para su Patrimonio Inmobiliario y Territorial</h1>
+        <p class="hero-subtitle">
+          Respaldamos sus decisiones de inversión, infraestructura y saneamiento de la propiedad mediante avalúos comerciales certificados, levantamientos topográficos de alta precisión y gestión integral del territorio bajo estricto cumplimiento de la normatividad IGAC y SNR.
+        </p>
 
-      <div class="hero-cta-group">
-        <a href="#contacto" class="btn btn-primary btn-lg">Solicitar Asesoría Técnica</a>
-        <a href="#servicios" class="btn btn-outline-light btn-lg">Explorar Portafolio de Servicios</a>
+        <div class="hero-cta-group">
+          <a href="#contacto" class="btn btn-primary btn-lg">Solicitar Asesoría Técnica</a>
+          <a href="#servicios" class="btn btn-outline-light btn-lg">Explorar Portafolio de Servicios</a>
+        </div>
+      </div>
+
+      <!-- NUEVO: Tarjeta Fotográfica Lateral de Alta Nitidez con Telemetría Técnica -->
+      <div class="hero-visual-showcase">
+        <figure class="hero-featured-frame">
+          <img src="https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1000&q=85" 
+               alt="Operación de receptor geodésico GNSS RTK de precisión milimétrica y control topográfico en campo por INGEOPREDIAL S.A.S." 
+               class="hero-featured-img" width="540" height="440">
+          
+          <!-- Indicador Flotante 1: Precisión RTK -->
+          <div class="hero-floating-badge badge-top-right">
+            <span class="status-dot" aria-hidden="true"></span>
+            <div>
+              <strong>Precisión GNSS/RTK</strong>
+              <span>Georreferenciación MAGNA-SIRGAS</span>
+            </div>
+          </div>
+
+          <!-- Indicador Flotante 2: Normativa IGAC 2026 -->
+          <div class="hero-floating-badge badge-bottom-left">
+            <span class="badge-icon-check" aria-hidden="true">✓</span>
+            <div>
+              <strong>Normativa IGAC 2026</strong>
+              <span>Res. 941 • Res. Conjunta 1101</span>
+            </div>
+          </div>
+        </figure>
       </div>
     </div>
 
@@ -257,7 +282,6 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
       <article class="quick-card">
         <div class="quick-card-header">
           <span class="quick-icon" aria-hidden="true">
-            <!-- Mini ícono de verificación valuatoria en --verde-corporativo -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 21h18M5 21V7l7-4 7 4v14M9 14l2 2 4-4"/></svg>
           </span>
           <h2>Avalúos Comerciales (IGAC / Res. 941 de 2026)</h2>
@@ -269,7 +293,6 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
       <article class="quick-card">
         <div class="quick-card-header">
           <span class="quick-icon" aria-hidden="true">
-            <!-- Mini ícono de precisión geodésica en --verde-corporativo -->
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v4M12 18v4M2 12h4M18 12h4"/></svg>
           </span>
           <h2>Topografía GNSS/RTK, Fotogrametría y SIG</h2>
@@ -291,13 +314,22 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
 
 ---
 
-#### B. Sección Nosotros (`<section id="nosotros" class="section about-section bg-light">`)
-- **Color de Fondo:** `var(--gris-claro)` (`#f4f7f6`).
-- **Estructura DOM:**
+### 4.3. Sección Nosotros (`#nosotros`) con Collage de Doble Imagen y Tarjetas de Métricas Visuales
+
+#### Cambios Clave de UI/UX:
+1. **Composición de Doble Imagen (`.about-collage`):**
+   - **Imagen Principal (`.about-collage-primary`):** Fotografía técnica de análisis de planos catastrales, cartografía e ingeniería (`width: 82%`, alineada arriba a la izquierda, bordes redondeados `14px`).
+   - **Imagen Secundaria Superpuesta (`.about-collage-secondary`):** Fotografía de operación en campo con instrumentación geodésica (`width: 58%`, superpuesta en la esquina inferior derecha con un borde grueso `6px solid var(--gris-claro)` y sombra profunda para crear profundidad tridimensional).
+2. **Tarjetas de Métricas Visuales (`.about-metrics-grid`):** Tres tarjetas compactas en `--blanco-fondo` con borde de acento izquierdo o superior en `--verde-corporativo` que reemplazan bloques densos y comunican autoridad de un vistazo:
+   - **Métrica 1:** `100%` — `Cumplimiento Normativo IGAC / SNR`
+   - **Métrica 2:** `Nacional` — `Cobertura Urbana y Rural en Colombia`
+   - **Métrica 3:** `3 Directores` — `Ingenieros Catastrales y Geodestas`
+
+#### Estructura Semántica DOM (`#nosotros`):
 ```html
 <section id="nosotros" class="section about-section bg-light" aria-labelledby="about-title">
   <div class="container about-grid">
-    <!-- Columna de Contenido Institucional -->
+    <!-- Columna Izquierda: Contenido Institucional y 3 Pilares -->
     <div class="about-content">
       <span class="section-eyebrow">RESPALDO INSTITUCIONAL Y RIGOR CIENTÍFICO</span>
       <h2 id="about-title" class="section-title">Autoridad Técnica Liderada por Ingenieros Catastrales y Geodestas Expertos</h2>
@@ -334,73 +366,65 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
       </div>
     </div>
 
-    <!-- Columna de Imagen de Apoyo con Sello de Autoridad -->
-    <figure class="about-media">
-      <div class="about-image-frame">
-        <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85" 
-             alt="Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial" 
-             loading="lazy" width="600" height="720">
+    <!-- Columna Derecha: Collage Técnico de Doble Imagen + 3 Tarjetas de Métricas Visuales -->
+    <div class="about-visual-column">
+      <div class="about-collage" role="group" aria-label="Registro visual de ingeniería de gabinete y operación geodésica en campo">
+        <!-- Imagen Principal: Planos / Ingeniería Catastral -->
+        <figure class="about-collage-primary">
+          <img src="https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1000&q=85" 
+               alt="Equipo directivo de ingenieros catastrales y geodestas analizando cartografía predial, planos topográficos y estudios de títulos para seguridad jurídica territorial" 
+               loading="lazy" width="520" height="400">
+          <span class="collage-tag">Gabinete Técnico &amp; Cartografía</span>
+        </figure>
+
+        <!-- Imagen Secundaria Superpuesta: Trabajo en Campo con Equipo Geodésico -->
+        <figure class="about-collage-secondary">
+          <img src="./assets/images/servicio-topografia.png" 
+               alt="Ingenieros geodestas ejecutando levantamiento en campo con equipo GNSS RTK de alta precisión" 
+               loading="lazy" width="340" height="250">
+          <span class="collage-tag collage-tag-green">Operación Geodésica en Campo</span>
+        </figure>
       </div>
-      <figcaption class="about-authority-badge">
-        <span class="badge-number">3</span>
-        <span class="badge-text">Ingenieros Catastrales y Geodestas Directores al frente de cada dictamen técnico</span>
-      </figcaption>
-    </figure>
+
+      <!-- Tarjetas de Métricas Visuales (KPI Cards) -->
+      <div class="about-metrics-grid" aria-label="Indicadores de respaldo institucional">
+        <div class="metric-card">
+          <strong class="metric-value">100%</strong>
+          <span class="metric-label">Cumplimiento IGAC / SNR</span>
+        </div>
+        <div class="metric-card">
+          <strong class="metric-value">Nacional</strong>
+          <span class="metric-label">Cobertura en Colombia</span>
+        </div>
+        <div class="metric-card">
+          <strong class="metric-value">3 Directores</strong>
+          <span class="metric-label">Ing. Catastrales y Geodestas</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 ```
 
 ---
 
-#### C. Sección Servicios (`<section id="servicios" class="section services-section">`) y Código Exacto de los 4 Íconos SVG
-- **Color de Fondo:** `var(--blanco-fondo)` (`#ffffff`).
-- **Regla Estricta de Diseño:** **PROHIBIDO usar fotografías dentro de las tarjetas de servicios**. Se debe emplear un diseño de tarjetas (`<article class="service-card">`) en cuadrícula (Grid 1 col en móvil, 2x2 en tablet/desktop) con borde superior de acento en `--verde-corporativo` (`#2d8a39`) y los siguientes **4 íconos vectoriales SVG minimalistas** renderizados estrictamente en `stroke: var(--verde-corporativo)` (`#2d8a39`).
+### 4.4. Sección Servicios (`#servicios`) con Cabecera Fotográfica + Ícono SVG Flotante + Chips Escaneables
 
-##### Especificación Exacta de los 4 Íconos SVG Minimalistas (`--verde-corporativo`):
+#### Cambios Clave de UI/UX:
+1. **Cabecera Fotográfica de Alto Impacto (`.service-card-media`):**
+   - Cada una de las 4 tarjetas incorpora en su parte superior un contenedor de imagen de `210px` de altura con `overflow: hidden` y efecto de zoom sutil (`transform: scale(1.05)`) al hacer `:hover` sobre la tarjeta.
+   - Rutas obligatorias de las 4 imágenes locales:
+     - Pilar 1 (`#servicio-avaluos`): `./assets/images/servicio-avaluos.png`
+     - Pilar 2 (`#servicio-topografia`): `./assets/images/servicio-topografia.png`
+     - Pilar 3 (`#servicio-tramites-prediales`): `./assets/images/servicio-catastro.png`
+     - Pilar 4 (`#servicio-legalizacion`): `./assets/images/servicio-legalizacion.png`
+2. **Badge Flotante con Ícono Vectorial SVG en `--verde-corporativo` (`.service-icon-floating`):**
+   - Posicionado en la intersección entre la fotografía superior y el cuerpo de la tarjeta (`position: absolute; bottom: -24px; right: 24px; width: 56px; height: 56px; background: var(--blanco-fondo); border-radius: 12px; box-shadow: var(--shadow-floating-badge); border: 2px solid var(--verde-corporativo);`).
+   - Contiene los **4 íconos vectoriales SVG minimalistas** renderizados en `stroke: var(--verde-corporativo)`.
+3. **Síntesis Visual mediante "Chips" / Etiquetas Escaneables (`.service-chips`):**
+   - Para erradicar la sensación de "muro de texto", las listas extensas se transforman en una combinación de **chips técnicos interactivos** (píldoras con check verde `✓`) y puntos clave concisos de lectura rápida (< 1 segundo por chip).
 
-1. **SVG Pilar 1 — Avalúos (`#servicio-avaluos`):**
-   ```html
-   <svg class="service-icon-svg" role="img" aria-label="Ícono de avalúos comerciales urbanos y rurales bajo normativa IGAC" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-     <path d="M3 21h18"/>
-     <path d="M5 21V7l7-4 7 4v14"/>
-     <path d="M9 9h6"/>
-     <path d="M9 13h6"/>
-     <path d="M9 17l2 2 4-4"/>
-   </svg>
-   ```
-
-2. **SVG Pilar 2 — Topografía (`#servicio-topografia`):**
-   ```html
-   <svg class="service-icon-svg" role="img" aria-label="Ícono de levantamientos topográficos con GNSS RTK, dron y SIG" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-     <circle cx="12" cy="10" r="3"/>
-     <circle cx="12" cy="10" r="7"/>
-     <path d="M12 2v2"/>
-     <path d="M4 10H2"/>
-     <path d="M22 10h-2"/>
-     <path d="M12 17v5"/>
-     <path d="M8 22l4-5 4 5"/>
-   </svg>
-   ```
-
-3. **SVG Pilar 3 — Trámites Prediales y Gestión Catastral (`#servicio-tramites-prediales`):**
-   ```html
-   <svg class="service-icon-svg" role="img" aria-label="Ícono de trámites prediales, gestión catastral y Resolución Conjunta 1101" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-     <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/>
-     <line x1="9" y1="3" x2="9" y2="18"/>
-     <line x1="15" y1="6" x2="15" y2="21"/>
-   </svg>
-   ```
-
-4. **SVG Pilar 4 — Legalización y Consultoría (`#servicio-legalizacion`):**
-   ```html
-   <svg class="service-icon-svg" role="img" aria-label="Ícono de legalización de construcciones y consultoría normativa POT" width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-     <polyline points="14 2 14 8 20 8"/>
-     <path d="M9 15l2 2 4-4"/>
-   </svg>
-   ```
-
-##### Estructura DOM de la Sección `#servicios`:
+#### Estructura Semántica DOM (`#servicios`):
 ```html
 <section id="servicios" class="section services-section" aria-labelledby="services-title">
   <div class="container">
@@ -415,84 +439,131 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
     <div class="services-grid">
       <!-- TARJETA 1: AVALÚOS -->
       <article id="servicio-avaluos" class="service-card">
-        <div class="service-card-top">
-          <div class="service-icon-box">
-            <!-- Insertar SVG Pilar 1 aquí -->
-          </div>
+        <div class="service-card-media">
+          <img src="./assets/images/servicio-avaluos.png" 
+               alt="Avalúos comerciales de inmuebles urbanos, rurales e industriales en Colombia bajo normatividad IGAC y Resolución 941 de 2026" 
+               loading="lazy" width="600" height="240">
+          <div class="service-media-overlay"></div>
           <span class="service-norm-tag">Normatividad IGAC • Resolución 941 de 2026</span>
+          <div class="service-icon-box service-icon-floating">
+            <svg class="service-icon-svg" role="img" aria-label="Ícono de avalúos comerciales urbanos y rurales bajo normativa IGAC" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 9h6"/><path d="M9 13h6"/><path d="M9 17l2 2 4-4"/>
+            </svg>
+          </div>
         </div>
-        <h3 class="service-card-title">Avalúos Comerciales, Urbanos y Rurales</h3>
-        <p class="service-card-desc">
-          Elaboración de dictámenes valuatorios objetivos y sustentados estadísticamente para determinar el valor comercial real de bienes inmuebles urbanos, rurales e industriales. Aplicamos con estricto rigor las metodologías oficiales del <strong>IGAC</strong> y los lineamientos técnicos actualizados de la <strong>Resolución 941 de 2026</strong>, brindando soporte confiable para transacciones comerciales, garantías hipotecarias, procesos judiciales, estados financieros (NIIF) y gestión predial.
-        </p>
-        <ul class="service-scope-list">
-          <li>Avalúos comerciales de inmuebles urbanos (residenciales, comerciales, industriales y lotes).</li>
-          <li>Avalúos de predios rurales, agropecuarios y de expansión urbana.</li>
-          <li>Cálculo de indemnizaciones, servidumbres y avalúos corporativos bajo estándares IGAC y Resolución 941 de 2026.</li>
-        </ul>
-        <a href="#contacto" class="service-card-cta">Cotizar Avalúo Técnico →</a>
+
+        <div class="service-card-body">
+          <h3 class="service-card-title">Avalúos Comerciales, Urbanos y Rurales</h3>
+          <p class="service-card-desc">
+            Dictámenes valuatorios objetivos y sustentados estadísticamente para determinar el valor comercial real de inmuebles urbanos, rurales e industriales bajo metodologías del <strong>IGAC</strong> y la <strong>Resolución 941 de 2026</strong>.
+          </p>
+
+          <!-- Síntesis Visual mediante Chips Técnicos Escaneables -->
+          <ul class="service-chips" aria-label="Alcances en Avalúos">
+            <li class="service-chip"><span class="chip-dot">✓</span> Inmuebles Urbanos y Lotes</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Predios Rurales y Agropecuarios</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Activos Industriales y NIIF</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Indemnizaciones y Servidumbres</li>
+          </ul>
+
+          <a href="#contacto" class="service-card-cta">Cotizar Avalúo Técnico →</a>
+        </div>
       </article>
 
       <!-- TARJETA 2: TOPOGRAFÍA -->
       <article id="servicio-topografia" class="service-card">
-        <div class="service-card-top">
-          <div class="service-icon-box">
-            <!-- Insertar SVG Pilar 2 aquí -->
-          </div>
+        <div class="service-card-media">
+          <img src="./assets/images/servicio-topografia.png" 
+               alt="Levantamientos topográficos de alta precisión con equipos GNSS RTK, fotogrametría con dron RPAS y cartografía SIG" 
+               loading="lazy" width="600" height="240">
+          <div class="service-media-overlay"></div>
           <span class="service-norm-tag">Equipos GNSS/RTK • Dron (RPAS) • Cartografía Digital</span>
+          <div class="service-icon-box service-icon-floating">
+            <svg class="service-icon-svg" role="img" aria-label="Ícono de levantamientos topográficos con GNSS RTK, dron y SIG" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="10" r="3"/><circle cx="12" cy="10" r="7"/><path d="M12 2v2"/><path d="M4 10H2"/><path d="M22 10h-2"/><path d="M12 17v5"/><path d="M8 22l4-5 4 5"/>
+            </svg>
+          </div>
         </div>
-        <h3 class="service-card-title">Topografía de Precisión, Fotogrametría y SIG</h3>
-        <p class="service-card-desc">
-          Ejecución de <strong>levantamientos topográficos</strong> urbanos y rurales amarrados a la red geodésica nacional mediante receptores satelitales <strong>GNSS/RTK</strong> de doble frecuencia y estaciones totales. Integramos captura aerofotogramétrica con <strong>dron (RPAS)</strong>, generación de ortofotomosaicos, Modelos Digitales de Terreno (MDT/MDS), cartografía temática y estructuración de bases de datos en <strong>Sistemas de Información Geográfica (SIG)</strong> bajo estándares del Catastro Multipropósito.
-        </p>
-        <ul class="service-scope-list">
-          <li>Levantamientos planimétricos, altimétricos y georreferenciación con tecnología GNSS/RTK.</li>
-          <li>Fotogrametría aérea con dron (RPAS), curvas de nivel de alta densidad y cálculo de volúmenes.</li>
-          <li>Producción de cartografía oficial, planos georreferenciados y análisis espacial en entornos SIG.</li>
-        </ul>
-        <a href="#contacto" class="service-card-cta">Solicitar Levantamiento →</a>
+
+        <div class="service-card-body">
+          <h3 class="service-card-title">Topografía de Precisión, Fotogrametría y SIG</h3>
+          <p class="service-card-desc">
+            Ejecución de <strong>levantamientos topográficos</strong> urbanos y rurales amarrados a la red geodésica nacional con receptores <strong>GNSS/RTK</strong>, captura aerofotogramétrica con <strong>dron (RPAS)</strong> y bases de datos en <strong>SIG</strong>.
+          </p>
+
+          <ul class="service-chips" aria-label="Alcances en Topografía">
+            <li class="service-chip"><span class="chip-dot">✓</span> Georreferenciación GNSS/RTK</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Fotogrametría Dron (RPAS)</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Ortofotomosaicos y MDT/MDS</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Cartografía Oficial y SIG</li>
+          </ul>
+
+          <a href="#contacto" class="service-card-cta">Solicitar Levantamiento →</a>
+        </div>
       </article>
 
-      <!-- TARJETA 3: TRÁMITES PREDIALES -->
+      <!-- TARJETA 3: TRÁMITES PREDIALES Y GESTIÓN CATASTRAL -->
       <article id="servicio-tramites-prediales" class="service-card">
-        <div class="service-card-top">
-          <div class="service-icon-box">
-            <!-- Insertar SVG Pilar 3 aquí -->
+        <div class="service-card-media">
+          <img src="./assets/images/servicio-catastro.png" 
+               alt="Cartografía catastral, actualización de linderos y trámites prediales bajo Resolución Conjunta 1101 IGAC SNR" 
+               loading="lazy" width="600" height="240">
+          <div class="service-media-overlay"></div>
+          <span class="service-norm-tag">Resolución Conjunta 1101 (IGAC - SNR) • Saneamiento</span>
+          <div class="service-icon-box service-icon-floating">
+            <svg class="service-icon-svg" role="img" aria-label="Ícono de trámites prediales, gestión catastral y Resolución Conjunta 1101" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="3 6 9 3 15 6 21 3 21 18 15 21 9 18 3 21"/><line x1="9" y1="3" x2="9" y2="18"/><line x1="15" y1="6" x2="15" y2="21"/>
+            </svg>
           </div>
-          <span class="service-norm-tag">Resolución Conjunta 1101 (IGAC - SNR) • Saneamiento Predial</span>
         </div>
-        <h3 class="service-card-title">Trámites Prediales y Gestión Catastral</h3>
-        <p class="service-card-desc">
-          Gestión integral ante gestores catastrales, notarías y Oficinas de Registro de Instrumentos Públicos para armonizar la realidad física del inmueble con su realidad jurídica. Especialistas en procedimientos de precisión bajo la <strong>Resolución Conjunta 1101</strong>, garantizando el éxito técnico-legal en la modificación, división, agrupación y saneamiento de la propiedad raíz.
-        </p>
-        <ul class="service-scope-list">
-          <li>Rectificaciones y actualizaciones de áreas y linderos registrales (<strong>Resolución Conjunta 1101</strong> IGAC - SNR).</li>
-          <li>Deslindes y amojonamientos técnicos en terreno, constitución e imposición de servidumbres.</li>
-          <li>Proyectos de loteos, parcelaciones, englobes y desenglobes prediales.</li>
-          <li>Estudios de títulos exhaustivos y trazabilidad histórico-registral de predios.</li>
-        </ul>
-        <a href="#contacto" class="service-card-cta">Iniciar Trámite Predial →</a>
+
+        <div class="service-card-body">
+          <h3 class="service-card-title">Trámites Prediales y Gestión Catastral</h3>
+          <p class="service-card-desc">
+            Gestión integral ante gestores catastrales, notarías y Registro de Instrumentos Públicos para armonizar la realidad física y jurídica del predio bajo la <strong>Resolución Conjunta 1101</strong>.
+          </p>
+
+          <ul class="service-chips" aria-label="Alcances en Trámites Prediales">
+            <li class="service-chip"><span class="chip-dot">✓</span> Rectificación Áreas y Linderos (1101)</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Englobes, Desenglobes y Loteos</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Deslindes y Servidumbres</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Estudios Técnicos de Títulos</li>
+          </ul>
+
+          <a href="#contacto" class="service-card-cta">Iniciar Trámite Predial →</a>
+        </div>
       </article>
 
       <!-- TARJETA 4: LEGALIZACIÓN Y CONSULTORÍA -->
       <article id="servicio-legalizacion" class="service-card">
-        <div class="service-card-top">
-          <div class="service-icon-box">
-            <!-- Insertar SVG Pilar 4 aquí -->
+        <div class="service-card-media">
+          <img src="./assets/images/servicio-legalizacion.png" 
+               alt="Planos arquitectónicos, legalización de construcciones y consultoría normativa POT ante Curadurías Urbanas" 
+               loading="lazy" width="600" height="240">
+          <div class="service-media-overlay"></div>
+          <span class="service-norm-tag">Normativa POT • Curadurías Urbanas • Viabilidad</span>
+          <div class="service-icon-box service-icon-floating">
+            <svg class="service-icon-svg" role="img" aria-label="Ícono de legalización de construcciones y consultoría normativa POT" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--verde-corporativo)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><path d="M9 15l2 2 4-4"/>
+            </svg>
           </div>
-          <span class="service-norm-tag">Normativa POT • Curadurías Urbanas • Viabilidad Predial</span>
         </div>
-        <h3 class="service-card-title">Legalización Urbanística y Consultoría Técnica</h3>
-        <p class="service-card-desc">
-          Asesoría técnica y jurídica especializada para la regularización de desarrollos constructivos y el análisis de viabilidad normativa del suelo. Evaluamos las determinantes de los <strong>Planes de Ordenamiento Territorial (POT)</strong>, realizamos diagnóstico de folios de matrícula inmobiliaria y estructuramos expedientes técnicos ante <strong>Curadurías Urbanas</strong> y secretarías de planeación municipal.
-        </p>
-        <ul class="service-scope-list">
-          <li>Reconocimiento y legalización de construcciones existentes ante Curadurías Urbanas.</li>
-          <li>Revisión técnica y jurídica de folios de matrícula inmobiliaria y gravámenes.</li>
-          <li>Análisis estructural básico y levantamiento arquitectónico para trámites de licenciamiento.</li>
-          <li>Consultoría especializada en normas urbanísticas del POT, usos del suelo y edificabilidad.</li>
-        </ul>
-        <a href="#contacto" class="service-card-cta">Consultar Viabilidad →</a>
+
+        <div class="service-card-body">
+          <h3 class="service-card-title">Legalización Urbanística y Consultoría Técnica</h3>
+          <p class="service-card-desc">
+            Asesoría especializada para la regularización de desarrollos constructivos, diagnóstico de matrículas inmobiliarias, análisis de determinantes del <strong>POT</strong> y expedientes ante <strong>Curadurías Urbanas</strong>.
+          </p>
+
+          <ul class="service-chips" aria-label="Alcances en Legalización">
+            <li class="service-chip"><span class="chip-dot">✓</span> Legalización de Construcciones</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Consultoría Normativa POT</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Diagnóstico de Matrículas</li>
+            <li class="service-chip"><span class="chip-dot">✓</span> Análisis Estructural Básico</li>
+          </ul>
+
+          <a href="#contacto" class="service-card-cta">Consultar Viabilidad →</a>
+        </div>
       </article>
     </div>
   </div>
@@ -501,105 +572,78 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
 
 ---
 
-#### D. Sección Contacto (`<section id="contacto" class="section contact-section bg-light">`)
-- **Color de Fondo:** `var(--gris-claro)` (`#f4f7f6`), con el contenedor del formulario en `var(--blanco-fondo)` (`#ffffff`).
-- **Estructura DOM:**
+### 4.5. NUEVA Sección Visual / Galería Bento Grid: "Tecnología y Operación en Campo" (`#galeria`)
+
+#### Objetivo de Diseño UI/UX:
+Ubicada entre `#servicios` y `#contacto`, esta sección rompe la monotonía textual mediante un **Mosaico Visual Bento Grid de 4 fotografías técnicas** con leyendas cortas superpuestas sobre un degradado en `--azul-corporativo` (`linear-gradient(180deg, rgba(13, 43, 69, 0.05) 0%, rgba(13, 43, 69, 0.92) 100%)`) y etiquetas superiores en `--verde-corporativo`.
+
+#### Los 4 Bloques del Bento Grid:
+1. **Item 1 (Destacado vertical/ancho):** **Operación GNSS/RTK de Precisión Milimétrica** — Georreferenciación satelital de doble frecuencia amarrada a la red geodésica nacional MAGNA-SIRGAS.
+2. **Item 2 (Horizontal superior derecho):** **Fotogrametría con Dron (RPAS) y Modelos Digitales de Terreno** — Ortofotomosaicos de alta resolución, nubes de puntos densas y curvas de nivel.
+3. **Item 3 (Cuadrado inferior central):** **Cartografía Catastral y SIG (Resolución Conjunta 1101)** — Modelamiento geoespacial para actualización de cabida y linderos IGAC - SNR.
+4. **Item 4 (Cuadrado inferior derecho):** **Avalúos Urbanos, Rurales e Industriales (Resolución 941 de 2026)** — Inspección física rigurosa e investigación econométrica del mercado inmobiliario.
+
+#### Estructura Semántica DOM (`#galeria`):
 ```html
-<section id="contacto" class="section contact-section bg-light" aria-labelledby="contact-title">
-  <div class="container contact-grid">
-    <!-- Columna Izquierda: Información Institucional y Teléfonos Directivos -->
-    <div class="contact-info">
-      <span class="section-eyebrow">ATENCIÓN DIRECTA DE INGENIEROS ESPECIALISTAS</span>
-      <h2 id="contact-title" class="section-title">Hable con Nuestro Equipo Directivo y Solicite su Propuesta Técnica</h2>
-      <p class="contact-intro">
-        Exponga el requerimiento técnico o jurídico de su predio. Nuestros tres ingenieros catastrales y geodestas directores evaluarán su caso de manera personalizada para ofrecerle una ruta de trabajo precisa, transparente y ajustada a la normatividad colombiana vigente.
+<section id="galeria" class="section gallery-section" aria-labelledby="gallery-title">
+  <div class="container">
+    <header class="section-header text-center">
+      <span class="section-eyebrow">TECNOLOGÍA Y OPERACIÓN EN CAMPO</span>
+      <h2 id="gallery-title" class="section-title">Ingeniería Geoespacial y Precisión Técnica en Acción</h2>
+      <p class="section-description">
+        Combinamos instrumentación satelital de última generación con rigor jurídico-catastral para entregar dictámenes y levantamientos con validez oficial en toda Colombia.
       </p>
+    </header>
 
-      <div class="contact-cards-stack">
-        <!-- Bloque de Ubicación -->
-        <div class="info-card">
-          <h3>Ubicación y Cobertura</h3>
-          <p>Sede principal en <strong>Bogotá D.C.</strong> con capacidad de desplazamiento técnico, operación de campo y gestión catastral <strong>a nivel nacional</strong> en todos los municipios de Colombia.</p>
-        </div>
+    <!-- Mosaico Visual Bento Grid (4 Fotografías con Overlay Gradiente --azul-corporativo) -->
+    <div class="bento-grid">
+      <!-- BENTO ITEM 1: GNSS/RTK -->
+      <figure class="bento-item bento-item-featured">
+        <img src="./assets/images/servicio-topografia.png" 
+             alt="Operación en campo con receptores satelitales GNSS RTK de precisión milimétrica amarrados a la red MAGNA-SIRGAS" 
+             loading="lazy" width="700" height="560">
+        <figcaption class="bento-overlay">
+          <span class="bento-tag">GEODESIA SATELITAL</span>
+          <h3>Operación GNSS/RTK de Precisión Milimétrica</h3>
+          <p>Posicionamiento en tiempo real amarrado a la red MAGNA-SIRGAS para control geodésico urbano y rural.</p>
+        </figcaption>
+      </figure>
 
-        <!-- Bloque de Líneas Directivas -->
-        <div class="info-card">
-          <h3>Líneas Directas — Dirección de Ingeniería</h3>
-          <ul class="phone-list">
-            <li>
-              <a href="tel:+573106291208" class="phone-link">
-                <span class="phone-badge">Línea Directiva 1</span>
-                <strong>+57 310-629-1208</strong>
-              </a>
-            </li>
-            <li>
-              <a href="tel:+573227389449" class="phone-link">
-                <span class="phone-badge">Línea Directiva 2</span>
-                <strong>+57 322-738-9449</strong>
-              </a>
-            </li>
-            <li>
-              <a href="tel:+573125338045" class="phone-link">
-                <span class="phone-badge">Línea Directiva 3</span>
-                <strong>+57 312-533-8045</strong>
-              </a>
-            </li>
-          </ul>
-          <p class="schedule-note">Lunes a Viernes: 8:00 a.m. – 6:00 p.m. | Sábados: 8:00 a.m. – 1:00 p.m.</p>
-        </div>
-      </div>
-    </div>
+      <!-- BENTO ITEM 2: DRON RPAS -->
+      <figure class="bento-item bento-item-wide">
+        <img src="https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=1000&q=85" 
+             alt="Mapeo aerofotogramétrico con dron RPAS y generación de Modelos Digitales de Terreno para topografía rural y urbana" 
+             loading="lazy" width="700" height="320">
+        <figcaption class="bento-overlay">
+          <span class="bento-tag">AEROFOTOGRAMETRÍA RPAS</span>
+          <h3>Fotogrametría con Dron (RPAS) y Modelos Digitales de Terreno</h3>
+          <p>Ortofotomosaicos centimétricos, cálculo volumétrico y modelamiento topográfico de grandes extensiones.</p>
+        </figcaption>
+      </figure>
 
-    <!-- Columna Derecha: Formulario de Solicitud Técnica -->
-    <div class="contact-form-wrapper">
-      <form id="contactForm" class="contact-form" action="#contacto" method="post" novalidate>
-        <h3 class="form-title">Formulario de Solicitud Técnica</h3>
+      <!-- BENTO ITEM 3: CARTOGRAFÍA Y SIG -->
+      <figure class="bento-item">
+        <img src="./assets/images/servicio-catastro.png" 
+             alt="Análisis espacial en Sistemas de Información Geográfica SIG y cartografía predial bajo Resolución Conjunta 1101" 
+             loading="lazy" width="500" height="320">
+        <figcaption class="bento-overlay">
+          <span class="bento-tag">CATASTRO MULTIPROPÓSITO</span>
+          <h3>Cartografía Catastral y SIG (Resolución Conjunta 1101)</h3>
+          <p>Estructuración de bases geográficas y planos protocolizables ante IGAC, gestores catastrales y SNR.</p>
+        </figcaption>
+      </figure>
 
-        <div class="form-row">
-          <div class="form-group">
-            <label for="nombre">Nombre completo o Empresa *</label>
-            <input type="text" id="nombre" name="nombre" required placeholder="Ej. Ing. Carlos Mendoza / Constructora Andina S.A.S.">
-          </div>
-          <div class="form-group">
-            <label for="telefono">Teléfono móvil / WhatsApp *</label>
-            <input type="tel" id="telefono" name="telefono" required placeholder="Ej. 310 000 0000">
-          </div>
-        </div>
-
-        <div class="form-row">
-          <div class="form-group">
-            <label for="correo">Correo electrónico corporativo o personal *</label>
-            <input type="email" id="correo" name="correo" required placeholder="Ej. contacto@empresa.com">
-          </div>
-          <div class="form-group">
-            <label for="municipio">Municipio y Departamento del Predio *</label>
-            <input type="text" id="municipio" name="municipio" required placeholder="Ej. Bogotá D.C. / Chía, Cundinamarca">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label for="servicio">Especialidad requerida *</label>
-          <select id="servicio" name="servicio" required>
-            <option value="" disabled selected>Seleccione el servicio de su interés...</option>
-            <option value="avaluos">Avalúos Comerciales (Urbanos / Rurales - Res. 941 de 2026)</option>
-            <option value="topografia">Topografía GNSS/RTK, Fotogrametría con Dron y SIG</option>
-            <option value="tramites-prediales">Trámites Prediales y Gestión Catastral (Res. Conjunta 1101, Linderos, Englobes)</option>
-            <option value="legalizacion">Legalización de Construcciones y Consultoría POT / Curadurías</option>
-            <option value="consultoria-integral">Consultoría Integral / Otro requerimiento predial</option>
-          </select>
-        </div>
-
-        <div class="form-group">
-          <label for="mensaje">Detalles técnicos del predio o requerimiento *</label>
-          <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Indique brevemente el área aproximada, número de matrícula inmobiliaria o cédula catastral (opcional) y el objetivo de su trámite o estudio."></textarea>
-        </div>
-
-        <p class="form-privacy">
-          Al enviar esta solicitud, autoriza el tratamiento confidencial de sus datos conforme a la Ley 1581 de 2012, exclusivamente para fines de cotización y asesoría técnica por parte de INGEOPREDIAL S.A.S.
-        </p>
-
-        <button type="submit" class="btn btn-primary btn-block">Enviar Solicitud al Equipo de Ingeniería</button>
-      </form>
+      <!-- BENTO ITEM 4: AVALÚOS RESOLUCIÓN 941 -->
+      <figure class="bento-item">
+        <img src="./assets/images/servicio-avaluos.png" 
+             alt="Inspección técnica para avalúos comerciales urbanos, rurales e industriales bajo Resolución 941 de 2026 del IGAC" 
+             loading="lazy" width="500" height="320">
+        <figcaption class="bento-overlay">
+          <span class="bento-tag">VALUACIÓN CERTIFICADA</span>
+          <h3>Avalúos Urbanos, Rurales e Industriales (Resolución 941 de 2026)</h3>
+          <p>Dictámenes corporativos, comerciales y judiciales con rigor metodológico y estadístico.</p>
+        </figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -607,103 +651,284 @@ El Agente Desarrollador debe estructurar `index.html` respetando rigurosamente e
 
 ---
 
-### 4.3. Pie de Página (`<footer class="site-footer">`) y Botón Flotante de WhatsApp
+### 4.6. Sección Contacto (`#contacto`) y Pie de Página (`<footer>`)
+Se conservan íntegramente todos los datos obligatorios de `directrices.md` y `copywriting.md`:
+- Operación en **Bogotá D.C. y atención a nivel nacional**.
+- Líneas directas de los 3 directores: **310-629-1208**, **322-738-9449** y **312-533-8045**.
+- Formulario estructurado de 6 campos con redirección/integración directa de cotización.
+- Botón flotante de WhatsApp (`position: fixed`) en `--verde-corporativo`.
+- Footer en `--azul-corporativo` con el logo transparente `./assets/images/logo-ingeopredial.png`.
 
-- **Color de Fondo del Footer:** `var(--azul-corporativo)` (`#0d2b45`), textos en `var(--blanco-fondo)` (`#ffffff`).
-- **Botón Flotante de WhatsApp:** `position: fixed; bottom: 24px; right: 24px; z-index: 1100; background-color: var(--verde-corporativo); color: var(--blanco-fondo);` con sombra destacada y animación de pulso sutil.
-- **Estructura DOM:**
-```html
-<footer class="site-footer">
-  <div class="container footer-grid">
-    <div class="footer-brand">
-      <a href="#inicio" class="footer-logo-link">
-        <img src="./assets/images/logo-ingeopredial.png" 
-             alt="INGEOPREDIAL S.A.S. - Consultoría en Avalúos Comerciales, Topografía y Gestión Predial" 
-             width="160" height="46" loading="lazy">
-      </a>
-      <p class="footer-about">
-        <strong>INGEOPREDIAL S.A.S.</strong> — Firma especializada de ingenieros catastrales y geodestas. Brindamos seguridad jurídica, precisión topográfica y rigor valuatorio en Bogotá D.C. y en todo el territorio nacional colombiano.
-      </p>
-    </div>
+---
 
-    <nav class="footer-nav" aria-label="Enlaces del pie de página">
-      <h4>Especialidades</h4>
-      <ul>
-        <li><a href="#servicio-avaluos">Avalúos Comerciales (Res. 941 de 2026)</a></li>
-        <li><a href="#servicio-topografia">Topografía GNSS/RTK y Dron</a></li>
-        <li><a href="#servicio-tramites-prediales">Trámites Prediales (Res. Conjunta 1101)</a></li>
-        <li><a href="#servicio-legalizacion">Legalización y Consultoría POT</a></li>
-      </ul>
-    </nav>
+## 5. Especificación CSS para los Nuevos Componentes Visuales (Guía para el Desarrollador)
 
-    <div class="footer-contact">
-      <h4>Contacto Directivo</h4>
-      <p>Ubicación: Bogotá D.C., Colombia — Cobertura a Nivel Nacional</p>
-      <p class="footer-phones">
-        Líneas Directivas: 
-        <a href="tel:+573106291208">310-629-1208</a> | 
-        <a href="tel:+573227389449">322-738-9449</a> | 
-        <a href="tel:+573125338045">312-533-8045</a>
-      </p>
-    </div>
-  </div>
+El Agente Desarrollador debe incorporar las siguientes reglas de layout en `style.css` manteniendo el enfoque **Mobile-First**:
 
-  <div class="footer-bottom">
-    <div class="container">
-      <p>© 2026 INGEOPREDIAL S.A.S. Todos los derechos reservados. Ingeniería Catastral, Geodesia, Avalúos Comerciales y Gestión Predial en Colombia.</p>
-    </div>
-  </div>
-</footer>
+### 5.1. Split Hero con Tarjeta Fotográfica Lateral (`.hero-split-grid` y `.hero-featured-frame`)
+```css
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.25rem;
+  align-items: center;
+  margin-bottom: 2.5rem;
+}
 
-<!-- Botón Flotante de WhatsApp Siempre Visible -->
-<a href="https://wa.me/573106291208?text=Hola%20INGEOPREDIAL%20S.A.S.,%20solicito%20asesor%C3%ADa%20t%C3%A9cnica%20sobre%20un%20servicio%20predial." 
-   class="whatsapp-float" 
-   target="_blank" 
-   rel="noopener noreferrer" 
-   aria-label="Contactar a un ingeniero catastral de INGEOPREDIAL S.A.S. por WhatsApp">
-  <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
-  </svg>
-  <span class="whatsapp-tooltip">Asesoría en línea</span>
-</a>
+.hero-featured-frame {
+  position: relative;
+  border-radius: var(--border-radius-card);
+  overflow: visible;
+  margin: 0;
+}
+
+.hero-featured-img {
+  width: 100%;
+  height: clamp(260px, 34vw, 400px);
+  object-fit: cover;
+  border-radius: var(--border-radius-card);
+  border: 3px solid rgba(255, 255, 255, 0.22);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.38);
+  display: block;
+}
+
+.hero-floating-badge {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  background-color: var(--blanco-fondo);
+  color: var(--azul-corporativo);
+  padding: 0.65rem 1rem;
+  border-radius: 10px;
+  box-shadow: var(--shadow-floating-badge);
+  border-left: 4px solid var(--verde-corporativo);
+  font-size: 0.82rem;
+  line-height: 1.25;
+  z-index: 2;
+}
+
+@media (min-width: 992px) {
+  .hero-split-grid {
+    grid-template-columns: 7fr 5fr;
+    gap: 3rem;
+  }
+}
 ```
 
----
+### 5.2. Collage de Doble Imagen y Métricas en `#nosotros` (`.about-collage` y `.about-metrics-grid`)
+```css
+.about-collage {
+  position: relative;
+  padding-bottom: 3.5rem;
+  margin-bottom: 1.75rem;
+}
 
-## 5. Reglas de Diseño Mobile-First y Breakpoints (Media Queries)
+.about-collage-primary {
+  width: 85%;
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  margin: 0;
+}
 
-El archivo `style.css` debe construirse siguiendo la metodología **Mobile-First**, donde las reglas base aplican a pantallas móviles (`320px` a `767px`) y la complejidad del layout se expande progresivamente con `@media (min-width: ...)`:
+.about-collage-primary img {
+  width: 100%;
+  height: 340px;
+  object-fit: cover;
+  display: block;
+}
 
-### 5.1. Estilos Base (Móvil: `0px` – `767px`)
-- **Contenedor (`.container`):** `width: 100%; padding-inline: 1.25rem; margin-inline: auto;`
-- **Header y Menú Hamburguesa:**
-  - `.nav-toggle` es visible (`display: flex`).
-  - `.primary-nav` se posiciona de forma absoluta bajo el header (`position: absolute; top: var(--header-height-mobile); left: 0; right: 0; background: var(--blanco-fondo);`), oculto inicialmente (`max-height: 0; overflow: hidden; opacity: 0;`) y desplegado al activar la clase `.is-open` mediante JavaScript ligero.
-- **Tipografía Fluida (`clamp()`):**
-  - `h1`: `font-size: clamp(1.85rem, 4.2vw, 3.1rem); line-height: 1.18;`
-  - `h2`: `font-size: clamp(1.55rem, 3vw, 2.35rem); line-height: 1.25;`
-  - `h3`: `font-size: clamp(1.15rem, 2vw, 1.38rem);`
-- **Grids en 1 Columna:**
-  - `.hero-quick-access`, `.about-grid`, `.services-grid`, `.contact-grid`, `.form-row` y `.footer-grid` se muestran en `grid-template-columns: 1fr; gap: 1.5rem;`.
-- **Botón Flotante de WhatsApp:** En móvil muestra el ícono circular (`56px x 56px`) en la esquina inferior derecha (`bottom: 18px; right: 18px;`), y en pantallas mayores o al hacer `:hover` despliega también la píldora de texto `"Asesoría en línea"`.
+.about-collage-secondary {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 58%;
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  border: 6px solid var(--gris-claro);
+  box-shadow: var(--shadow-floating-badge);
+  margin: 0;
+}
 
-### 5.2. Breakpoint Tablet (`@media (min-width: 768px)`)
-- `.hero-quick-access`: `grid-template-columns: repeat(2, 1fr);`
-- `.services-grid`: `grid-template-columns: repeat(2, 1fr); gap: 2rem;` (Cuadrícula simétrica 2x2 para los 4 pilares de servicios).
-- `.form-row`: `grid-template-columns: repeat(2, 1fr); gap: 1.25rem;`
-- `.footer-grid`: `grid-template-columns: repeat(2, 1fr);`
+.about-collage-secondary img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+}
 
-### 5.3. Breakpoint Desktop (`@media (min-width: 992px)`)
-- **Sticky Header de Escritorio:**
-  - `.nav-toggle { display: none; }`
-  - `.primary-nav { position: static; display: flex; align-items: center; gap: 2rem; opacity: 1; max-height: none; overflow: visible; }`
-  - `.nav-list { display: flex; gap: 1.75rem; }`
-- **Sección Nosotros (`.about-grid`):** `grid-template-columns: 7fr 5fr; align-items: center; gap: 3.5rem;`
-- **Sección Contacto (`.contact-grid`):** `grid-template-columns: 5fr 7fr; align-items: start; gap: 3rem;`
-- **Pie de Página (`.footer-grid`):** `grid-template-columns: 1.4fr 1fr 1.2fr; gap: 2.5rem;`
+.about-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
 
----
+.metric-card {
+  background-color: var(--blanco-fondo);
+  border: 1px solid var(--azul-borde-sutil);
+  border-top: 3px solid var(--verde-corporativo);
+  border-radius: 10px;
+  padding: 0.9rem 0.75rem;
+  text-align: center;
+  box-shadow: var(--shadow-card);
+}
+```
 
-## 6. Interacciones requeridas para el Agente Desarrollador (JS Ligero / Accesible)
-1. **Toggle del Menú Móvil:** Alternar clase `.is-open` en `#primaryNav` y actualizar atributo `aria-expanded="true/false"` en `#navToggle`. Cerrar automáticamente el menú móvil al hacer clic en cualquier enlace `.nav-link`.
-2. **Envío del Formulario (`#contactForm`):** Capturar el evento `submit` para validar campos requeridos y ofrecer feedback visual inmediato al usuario (con opción de redirigir o abrir mensaje pre-estructurado hacia la línea directiva de WhatsApp `310-629-1208` con los datos ingresados, garantizando conversión real en un entorno estático como GitHub Pages).
+### 5.3. Tarjetas de Servicios con Header Fotográfico, Badge SVG Flotante y Chips (`.service-card-media` y `.service-chips`)
+```css
+.service-card {
+  background-color: var(--blanco-fondo);
+  border-radius: var(--border-radius-card);
+  border: 1px solid var(--azul-borde-sutil);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition-base);
+}
+
+.service-card-media {
+  position: relative;
+  height: 215px;
+  overflow: visible;
+}
+
+.service-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.45s ease;
+}
+
+.service-card:hover .service-card-media img {
+  transform: scale(1.05);
+}
+
+.service-icon-floating {
+  position: absolute;
+  bottom: -24px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  background-color: var(--blanco-fondo);
+  border: 2px solid var(--verde-corporativo);
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-floating-badge);
+  z-index: 3;
+}
+
+.service-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 1.5rem;
+}
+
+.service-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--gris-claro);
+  color: var(--azul-corporativo);
+  border: 1px solid var(--azul-borde-sutil);
+  border-radius: var(--border-radius-chip);
+  padding: 0.38rem 0.8rem;
+  font-size: 0.84rem;
+  font-weight: 600;
+}
+
+.service-chip .chip-dot {
+  color: var(--verde-corporativo);
+  font-weight: 700;
+}
+```
+
+### 5.4. Mosaico Bento Grid en `#galeria` (`.bento-grid`)
+```css
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+}
+
+.bento-item {
+  position: relative;
+  border-radius: var(--border-radius-card);
+  overflow: hidden;
+  min-height: 250px;
+  margin: 0;
+  box-shadow: var(--shadow-card);
+}
+
+.bento-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+}
+
+.bento-item:hover img {
+  transform: scale(1.06);
+}
+
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: var(--azul-gradiente-bento);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  color: var(--blanco-fondo);
+}
+
+.bento-tag {
+  align-self: flex-start;
+  background-color: var(--verde-corporativo);
+  color: var(--blanco-fondo);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 4px;
+  margin-bottom: 0.5rem;
+}
+
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 992px) {
+  .bento-grid {
+    grid-template-columns: repeat(12, 1fr);
+    grid-auto-rows: 240px;
+    gap: 1.5rem;
+  }
+  .bento-item-featured {
+    grid-column: span 5;
+    grid-row: span 2;
+  }
+  .bento-item-wide {
+    grid-column: span 7;
+    grid-row: span 1;
+  }
+  .bento-item:nth-child(3) {
+    grid-column: span 4;
+    grid-row: span 1;
+  }
+  .bento-item:nth-child(4) {
+    grid-column: span 3;
+    grid-row: span 1;
+  }
+}
+```

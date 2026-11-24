@@ -60,6 +60,8 @@ export function App() {
     valor_honorarios: 0,
   });
   const [resultadoCotizacion, setResultadoCotizacion] = useState<string>('');
+  const [instruccionRefinamiento, setInstruccionRefinamiento] = useState<string>('');
+  const [refinando, setRefinando] = useState<boolean>(false);
 
   // Contratos state
   const [consecutivoManualContrato, setConsecutivoManualContrato] = useState<string>('');
@@ -218,6 +220,40 @@ export function App() {
       setResultadoCotizacion('Error de red al procesar la cotización.');
     } finally {
       setCargando(false);
+    }
+  };
+
+  const handleRefinarCotizacion = async (consecutivoCot: string): Promise<void> => {
+    if (!token || !instruccionRefinamiento.trim()) return;
+    setRefinando(true);
+    try {
+      const res = await fetch(`${API_URL}/api/cotizaciones/refinar`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          consecutivo_cotizacion: consecutivoCot,
+          instruccion_ajuste: instruccionRefinamiento.trim(),
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(`Error al refinar: ${data.detail || 'No se pudo procesar el ajuste.'}`);
+      } else {
+        setResultadoCotizacion(
+          typeof data.resultado === 'string'
+            ? data.resultado
+            : JSON.stringify(data.resultado, null, 2)
+        );
+        setInstruccionRefinamiento('');
+        cargarDashboard(token);
+      }
+    } catch {
+      alert('Error de red al refinar la cotización.');
+    } finally {
+      setRefinando(false);
     }
   };
 
@@ -788,11 +824,23 @@ export function App() {
               try {
                 const r = JSON.parse(resultadoCotizacion) as {
                   consecutivo_cotizacion?: string;
+                  modelo_ia?: string;
                   cliente?: string;
+                  municipio?: string;
                   servicio?: string;
+                  objeto?: string;
+                  alcance?: string;
+                  exclusiones?: string;
+                  plazo_dias?: number;
                   valor_total?: number;
                   anticipo_50?: number;
-                  saldo_50?: number;
+                  hitos_pago?: Array<{
+                    numero_fase: number;
+                    descripcion_hito: string;
+                    porcentaje: number;
+                    valor_cop: number;
+                    condicion_tecnica?: string | null;
+                  }>;
                   archivo_generado?: string;
                   archivo_base64?: string;
                   pdf_generado?: string;
@@ -804,19 +852,58 @@ export function App() {
                   return <div className="result-box">{resultadoCotizacion}</div>;
                 }
                 return (
-                  <div style={{ marginTop: '1rem', padding: '1.1rem', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '10px', color: '#0f172a' }}>
-                    <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#166534', marginBottom: '0.5rem' }}>
-                      Cotización {r.consecutivo_cotizacion} generada con éxito
+                  <div style={{ marginTop: '1rem', padding: '1.15rem', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '10px', color: '#0f172a' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.6rem' }}>
+                      <strong style={{ fontSize: '1.05rem', color: '#166534' }}>
+                        Cotización {r.consecutivo_cotizacion} generada con éxito
+                      </strong>
+                      {r.modelo_ia && (
+                        <span style={{ fontSize: '0.78rem', background: '#0d2b45', color: '#ffffff', padding: '0.2rem 0.55rem', borderRadius: '999px' }}>
+                          Motor: {r.modelo_ia}
+                        </span>
+                      )}
                     </div>
-                    <div style={{ fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '0.9rem' }}>
-                      <div><strong>Cliente:</strong> {r.cliente}</div>
+
+                    <div style={{ fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '0.85rem' }}>
+                      <div><strong>Cliente:</strong> {r.cliente} {r.municipio ? `— ${r.municipio}` : ''}</div>
                       <div><strong>Servicio:</strong> {r.servicio}</div>
-                      <div><strong>Valor total:</strong> {formatoCOP(Number(r.valor_total || 0))} (50% anticipo: {formatoCOP(Number(r.anticipo_50 || 0))})</div>
-                      <div style={{ color: '#475569', fontSize: '0.82rem', marginTop: '0.35rem' }}>
-                        Borrador enviado al correo interno de los Socios Administradores para revisión y firma.
+                      <div>
+                        <strong>Valor total:</strong> {formatoCOP(Number(r.valor_total || 0))}
+                        {r.plazo_dias ? ` • Plazo estimado: ${r.plazo_dias} días hábiles` : ''}
+                      </div>
+
+                      {Array.isArray(r.hitos_pago) && r.hitos_pago.length > 0 && (
+                        <div style={{ marginTop: '0.55rem', background: '#ffffff', border: '1px solid #dcfce7', borderRadius: '8px', padding: '0.65rem 0.8rem' }}>
+                          <div style={{ fontWeight: 700, fontSize: '0.84rem', color: '#0d2b45', marginBottom: '0.35rem' }}>
+                            Fases y Forma de Pago:
+                          </div>
+                          {r.hitos_pago.map((h) => (
+                            <div key={h.numero_fase} style={{ fontSize: '0.84rem', marginBottom: '0.25rem' }}>
+                              <strong>Fase {h.numero_fase} ({h.porcentaje}% — {formatoCOP(h.valor_cop)}):</strong> {h.descripcion_hito}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {(r.objeto || r.alcance) && (
+                        <details style={{ marginTop: '0.6rem', background: '#ffffff', border: '1px solid #e2e8f0', borderRadius: '8px', padding: '0.55rem 0.8rem' }}>
+                          <summary style={{ cursor: 'pointer', fontWeight: 600, fontSize: '0.85rem', color: '#0d2b45' }}>
+                            Ver redacción técnica generada (Objeto, Alcance y Exclusiones)
+                          </summary>
+                          <div style={{ marginTop: '0.55rem', fontSize: '0.84rem', whiteSpace: 'pre-line', color: '#334155' }}>
+                            {r.objeto && <><strong>Objeto:</strong>{'\n'}{r.objeto}{'\n\n'}</>}
+                            {r.alcance && <><strong>Alcance técnico:</strong>{'\n'}{r.alcance}{'\n\n'}</>}
+                            {r.exclusiones && <><strong>Exclusiones:</strong>{'\n'}{r.exclusiones}</>}
+                          </div>
+                        </details>
+                      )}
+
+                      <div style={{ color: '#475569', fontSize: '0.82rem', marginTop: '0.5rem' }}>
+                        Borrador enviado únicamente a los Socios Administradores para revisión interna.
                       </div>
                     </div>
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem', marginBottom: '1rem' }}>
                       {r.archivo_base64 && (
                         <a
                           href={`data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${r.archivo_base64}`}
@@ -847,6 +934,28 @@ export function App() {
                           Abrir PDF en Drive
                         </a>
                       )}
+                    </div>
+
+                    <div style={{ borderTop: '1px solid #bbf7d0', paddingTop: '0.85rem' }}>
+                      <label style={{ display: 'block', fontWeight: 700, fontSize: '0.86rem', color: '#0d2b45', marginBottom: '0.4rem' }}>
+                        ¿Deseas ajustar esta versión antes de aprobar? (Refinar borrador con IA)
+                      </label>
+                      <textarea
+                        rows={2}
+                        value={instruccionRefinamiento}
+                        onChange={(e) => setInstruccionRefinamiento(e.target.value)}
+                        placeholder="Ej: Ajustar el valor total a $8.500.000, dividir en 3 fases (50%/30%/20%) y agregar exclusión de trámites notariales..."
+                        style={{ width: '100%', padding: '0.6rem', borderRadius: '8px', border: '1px solid #cbd5e1', fontSize: '0.88rem', marginBottom: '0.55rem' }}
+                      />
+                      <button
+                        type="button"
+                        className="btn"
+                        disabled={refinando || !instruccionRefinamiento.trim()}
+                        onClick={() => handleRefinarCotizacion(r.consecutivo_cotizacion!)}
+                        style={{ background: '#0d2b45', color: '#ffffff' }}
+                      >
+                        {refinando ? 'Refinando borrador con IA...' : 'Aplicar Ajustes y Regenerar Versión'}
+                      </button>
                     </div>
                   </div>
                 );

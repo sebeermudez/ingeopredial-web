@@ -484,7 +484,7 @@ export function App() {
             onError={(e) => (e.currentTarget.style.display = 'none')}
           />
           <div className="sidebar-brand-text">
-            <strong>INGEOPREDIAL</strong>
+            <strong style={{ color: '#ffffff' }}>INGEOPREDIAL</strong>
             <span>S.A.S. • Gestión Técnica</span>
           </div>
         </div>
@@ -784,7 +784,76 @@ export function App() {
               </button>
             </form>
 
-            {resultadoCotizacion && <div className="result-box">{resultadoCotizacion}</div>}
+            {resultadoCotizacion && (() => {
+              try {
+                const r = JSON.parse(resultadoCotizacion) as {
+                  consecutivo_cotizacion?: string;
+                  cliente?: string;
+                  servicio?: string;
+                  valor_total?: number;
+                  anticipo_50?: number;
+                  saldo_50?: number;
+                  archivo_generado?: string;
+                  archivo_base64?: string;
+                  pdf_generado?: string;
+                  pdf_base64?: string;
+                  drive_docx_url?: string | null;
+                  drive_pdf_url?: string | null;
+                };
+                if (!r.consecutivo_cotizacion) {
+                  return <div className="result-box">{resultadoCotizacion}</div>;
+                }
+                return (
+                  <div style={{ marginTop: '1rem', padding: '1.1rem', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '10px', color: '#0f172a' }}>
+                    <div style={{ fontWeight: 700, fontSize: '1.05rem', color: '#166534', marginBottom: '0.5rem' }}>
+                      Cotización {r.consecutivo_cotizacion} generada con éxito
+                    </div>
+                    <div style={{ fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '0.9rem' }}>
+                      <div><strong>Cliente:</strong> {r.cliente}</div>
+                      <div><strong>Servicio:</strong> {r.servicio}</div>
+                      <div><strong>Valor total:</strong> {formatoCOP(Number(r.valor_total || 0))} (50% anticipo: {formatoCOP(Number(r.anticipo_50 || 0))})</div>
+                      <div style={{ color: '#475569', fontSize: '0.82rem', marginTop: '0.35rem' }}>
+                        Borrador enviado al correo interno de los Socios Administradores para revisión y firma.
+                      </div>
+                    </div>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+                      {r.archivo_base64 && (
+                        <a
+                          href={`data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${r.archivo_base64}`}
+                          download={r.archivo_generado || `${r.consecutivo_cotizacion}.docx`}
+                          className="btn btn-primary"
+                          style={{ textDecoration: 'none' }}
+                        >
+                          Descargar Word (.docx)
+                        </a>
+                      )}
+                      {r.pdf_base64 && (
+                        <a
+                          href={`data:application/pdf;base64,${r.pdf_base64}`}
+                          download={r.pdf_generado || `${r.consecutivo_cotizacion}.pdf`}
+                          className="btn"
+                          style={{ textDecoration: 'none', background: '#0d2b45', color: '#ffffff' }}
+                        >
+                          Descargar PDF (.pdf)
+                        </a>
+                      )}
+                      {r.drive_docx_url && (
+                        <a href={r.drive_docx_url} target="_blank" rel="noreferrer" className="btn" style={{ textDecoration: 'none', border: '1px solid #2d8a39', color: '#2d8a39', background: '#ffffff' }}>
+                          Abrir Word en Drive
+                        </a>
+                      )}
+                      {r.drive_pdf_url && (
+                        <a href={r.drive_pdf_url} target="_blank" rel="noreferrer" className="btn" style={{ textDecoration: 'none', border: '1px solid #0d2b45', color: '#0d2b45', background: '#ffffff' }}>
+                          Abrir PDF en Drive
+                        </a>
+                      )}
+                    </div>
+                  </div>
+                );
+              } catch {
+                return <div className="result-box">{resultadoCotizacion}</div>;
+              }
+            })()}
           </div>
         )}
 

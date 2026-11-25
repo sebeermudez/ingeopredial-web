@@ -292,7 +292,7 @@ export function App() {
       });
       const data = await res.json();
       if (!res.ok) {
-        alert(data.detail || 'No se pudo actualizar el estado.');
+        alert(data.detail || data.message || `Error HTTP ${res.status}: No se pudo actualizar el estado.`);
       } else {
         cargarDashboard(token);
       }
@@ -1125,7 +1125,7 @@ export function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {(proyectos as any[]).map((p) => {
+                      {(proyectos as any[]).filter((p) => Boolean(p.consecutivo_contrato)).map((p) => {
                         const pctMap: Record<string, number> = {
                           COTIZACION_PENDIENTE_APROBACION: 5,
                           COTIZADO: 15,
@@ -1153,8 +1153,6 @@ export function App() {
                                 onChange={(e) => handleCambiarEstadoProyecto(p.id, e.target.value)}
                                 style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
                               >
-                                <option value="COTIZACION_PENDIENTE_APROBACION">COTIZACION_PENDIENTE_APROBACION</option>
-                                <option value="COTIZADO">COTIZADO</option>
                                 <option value="CONTRATO_PENDIENTE">CONTRATO_PENDIENTE</option>
                                 <option value="FIRMADO">FIRMADO</option>
                                 <option value="FINALIZADO">FINALIZADO</option>

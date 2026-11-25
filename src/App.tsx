@@ -21,6 +21,10 @@ import type {
   TabActivo,
   RolUsuario,
 } from './types/ingeopredial';
+import { HardHat, Receipt, PieChart } from 'lucide-react';
+import { ContratistasView } from './modules/finanzas/ContratistasView';
+import { CxpContratistasView } from './modules/finanzas/CxpContratistasView';
+import { LiquidacionesView } from './modules/finanzas/LiquidacionesView';
 
 const API_URL: string = import.meta.env.VITE_API_URL || 'http://127.0.0.1:8000';
 
@@ -586,6 +590,24 @@ export function App() {
                 <DollarSign size={18} /> Finanzas y Cobros
               </button>
               <button
+                className={`nav-btn ${tab === 'contratistas' ? 'active' : ''}`}
+                onClick={() => setTab('contratistas')}
+              >
+                <HardHat size={18} /> Contratistas
+              </button>
+              <button
+                className={`nav-btn ${tab === 'cxp' ? 'active' : ''}`}
+                onClick={() => setTab('cxp')}
+              >
+                <Receipt size={18} /> CxP Contratistas
+              </button>
+              <button
+                className={`nav-btn ${tab === 'liquidaciones' ? 'active' : ''}`}
+                onClick={() => setTab('liquidaciones')}
+              >
+                <PieChart size={18} /> Liquidación Proyectos
+              </button>
+              <button
                 className={`nav-btn ${tab === 'ajustes' ? 'active' : ''}`}
                 onClick={() => {
                   setTab('ajustes');
@@ -616,6 +638,9 @@ export function App() {
             {tab === 'contratos' && 'Aprobación y Generación de Contratos'}
             {tab === 'visitas' && 'Cronograma de Campo y Logística MWU-296'}
             {tab === 'finanzas' && 'Facturación (50% / 50%) y Liquidación'}
+            {tab === 'contratistas' && 'Directorio de Contratistas Aliados'}
+            {tab === 'cxp' && 'Cuentas por Pagar a Contratistas'}
+            {tab === 'liquidaciones' && 'Liquidación Financiera por Proyecto'}
             {tab === 'ajustes' && 'Administración de Socios y Colaboradores'}
           </h2>
           <span className="normativa-pill">Resolución IGAC 941 de 2026 • EPSG:9377</span>
@@ -1642,6 +1667,17 @@ export function App() {
               </div>
             </div>
           </>
+        )}
+
+        {/* MÓDULOS NUEVOS: CONTRATISTAS, CxP Y LIQUIDACIÓN (solo SOCIO_ADMIN) */}
+        {esSocio && tab === 'contratistas' && (
+          <ContratistasView token={token} apiUrl={API_URL} onSesionExpirada={cerrarSesion} />
+        )}
+        {esSocio && tab === 'cxp' && (
+          <CxpContratistasView token={token} apiUrl={API_URL} proyectos={proyectos} onSesionExpirada={cerrarSesion} />
+        )}
+        {esSocio && tab === 'liquidaciones' && (
+          <LiquidacionesView token={token} apiUrl={API_URL} proyectos={proyectos} onSesionExpirada={cerrarSesion} />
         )}
       </main>
     </div>

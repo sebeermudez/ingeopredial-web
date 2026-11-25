@@ -6,6 +6,9 @@ export type TabActivo =
   | 'contratos'
   | 'visitas'
   | 'finanzas'
+  | 'contratistas'
+  | 'cxp'
+  | 'liquidaciones'
   | 'ajustes';
 
 export interface Usuario {

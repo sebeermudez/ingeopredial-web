@@ -1,0 +1,353 @@
+/* Módulo Contratistas, CxP y Liquidación — usa la paleta corporativa definida en index.css */
+
+.fin-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: flex-end;
+  margin-bottom: 1rem;
+}
+
+.fin-toolbar .form-group {
+  margin-bottom: 0;
+  min-width: 200px;
+  flex: 1;
+}
+
+.fin-toolbar .btn {
+  white-space: nowrap;
+}
+
+.fin-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.fin-card-header h3 {
+  margin-bottom: 0;
+}
+
+.btn-sm {
+  padding: 0.35rem 0.75rem;
+  font-size: 0.8rem;
+}
+
+.btn-light {
+  background: var(--gris-claro);
+  color: var(--azul-corporativo);
+  border: 1px solid var(--borde-suave);
+}
+
+.btn-light:hover {
+  background: #e8eeec;
+}
+
+.btn-danger {
+  background: #fff;
+  color: var(--error-texto);
+  border: 1px solid #fca5a5;
+}
+
+.btn-danger:hover {
+  background: var(--error-bg);
+}
+
+.fin-actions {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+/* Badges */
+.fin-badge {
+  display: inline-block;
+  padding: 0.18rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+  background: #e2e8f0;
+  color: #1e293b;
+  white-space: nowrap;
+}
+
+.fin-badge.verde {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.fin-badge.azul {
+  background: #dbeafe;
+  color: var(--azul-corporativo);
+}
+
+.fin-badge.ambar {
+  background: var(--alerta-bg);
+  color: var(--alerta-texto);
+  border: 1px solid #fde68a;
+}
+
+.fin-badge.rojo {
+  background: var(--error-bg);
+  color: var(--error-texto);
+}
+
+.fin-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.fin-muted {
+  color: var(--texto-secundario);
+  font-size: 0.78rem;
+}
+
+.fin-num {
+  text-align: right;
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+
+.fin-empty {
+  text-align: center;
+  padding: 1.5rem !important;
+  color: var(--texto-secundario);
+}
+
+.fin-alert-ok {
+  background: #f0fdf4;
+  border: 1px solid #86efac;
+  color: #166534;
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-size: 0.88rem;
+}
+
+/* Modal */
+.fin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(13, 43, 69, 0.55);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  overflow-y: auto;
+  z-index: 1000;
+}
+
+.fin-modal {
+  background: var(--blanco-fondo);
+  border-radius: 12px;
+  width: 100%;
+  max-width: 920px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+}
+
+.fin-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.1rem 1.5rem;
+  border-bottom: 1px solid var(--borde-suave);
+}
+
+.fin-modal-header h3 {
+  color: var(--azul-corporativo);
+  font-size: 1.1rem;
+}
+
+.fin-modal-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--texto-secundario);
+  display: flex;
+}
+
+.fin-modal-body {
+  padding: 1.25rem 1.5rem;
+}
+
+.fin-modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  padding: 1rem 1.5rem;
+  border-top: 1px solid var(--borde-suave);
+  background: var(--gris-claro);
+  border-radius: 0 0 12px 12px;
+}
+
+.fin-section-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--verde-corporativo);
+  margin: 0.5rem 0 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 1px solid var(--borde-suave);
+}
+
+.fin-check-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.fin-check {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--texto-principal);
+  background: var(--gris-claro);
+  border: 1px solid var(--borde-suave);
+  border-radius: 7px;
+  padding: 0.55rem 0.75rem;
+  cursor: pointer;
+}
+
+.fin-check input {
+  accent-color: var(--verde-corporativo);
+  width: 16px;
+  height: 16px;
+}
+
+.fin-soportes {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.fin-soportes label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.fin-soportes input {
+  accent-color: var(--verde-corporativo);
+}
+
+/* Vista previa neto CxP */
+.fin-preview {
+  background: var(--gris-claro);
+  border: 1px dashed var(--verde-corporativo);
+  border-radius: 8px;
+  padding: 1rem 1.1rem;
+  margin-bottom: 1rem;
+}
+
+.fin-preview-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  padding: 0.2rem 0;
+}
+
+.fin-preview-row.total {
+  border-top: 1px solid var(--borde-suave);
+  margin-top: 0.35rem;
+  padding-top: 0.5rem;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--verde-corporativo);
+}
+
+/* Liquidación */
+.liq-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+  gap: 1.25rem;
+}
+
+.liq-waterfall {
+  border: 1px solid var(--borde-suave);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.liq-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.7rem 1rem;
+  border-bottom: 1px solid var(--borde-suave);
+  font-size: 0.92rem;
+}
+
+.liq-row:last-child {
+  border-bottom: none;
+}
+
+.liq-row .liq-label {
+  display: flex;
+  flex-direction: column;
+}
+
+.liq-row .liq-label small {
+  color: var(--texto-secundario);
+  font-size: 0.75rem;
+}
+
+.liq-row.menos .liq-valor {
+  color: var(--error-texto);
+}
+
+.liq-row.subtotal {
+  background: var(--gris-claro);
+  font-weight: 700;
+  color: var(--azul-corporativo);
+}
+
+.liq-row.final {
+  background: var(--azul-corporativo);
+  color: #ffffff;
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.liq-row.final .liq-label small {
+  color: #cbd5e1;
+}
+
+.liq-row.final .liq-valor {
+  color: #86efac;
+}
+
+.liq-side .kpi-card {
+  margin-bottom: 0.75rem;
+}
+
+@media (max-width: 820px) {
+  .liq-grid {
+    grid-template-columns: 1fr;
+  }
+  .fin-modal-backdrop {
+    padding: 0;
+  }
+  .fin-modal {
+    border-radius: 0;
+    min-height: 100vh;
+  }
+  .fin-modal-footer {
+    border-radius: 0;
+    position: sticky;
+    bottom: 0;
+  }
+  .fin-toolbar .form-group {
+    min-width: 100%;
+  }
+}

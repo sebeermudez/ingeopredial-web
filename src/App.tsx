@@ -278,6 +278,29 @@ export function App() {
     }
   };
 
+  const handleCambiarEstadoProyecto = async (proyectoId: number, nuevoEstado: string): Promise<void> => {
+    if (!token) return;
+    setCargando(true);
+    try {
+      const res = await fetch(`${API_URL}/api/proyectos/${proyectoId}/estado`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ estado: nuevoEstado }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        alert(data.detail || 'No se pudo actualizar el estado.');
+      } else {
+        cargarDashboard(token);
+      }
+    } finally {
+      setCargando(false);
+    }
+  };
+
   const handleGenerarContratoDesdeTab = async (): Promise<void> => {
     if (!token || !consecutivoManualContrato.trim()) return;
     setCargando(true);
@@ -296,7 +319,7 @@ export function App() {
       const data = await res.json();
       setResultadoContrato(
         res.ok
-          ? `${data.mensaje}\n${JSON.stringify(data.resultado, null, 2)}`
+          ? JSON.stringify(data.resultado, null, 2)
           : `Error: ${data.detail}`
       );
       setConsecutivoManualContrato('');
@@ -358,7 +381,7 @@ export function App() {
       const data = await res.json();
       setResultadoFinanzas(
         res.ok
-          ? `${data.mensaje}\n${JSON.stringify(data.resultado, null, 2)}`
+          ? JSON.stringify(data.resultado, null, 2)
           : `Error: ${data.detail}`
       );
     } finally {
@@ -386,7 +409,7 @@ export function App() {
       const data = await res.json();
       setResultadoFinanzas(
         res.ok
-          ? `${data.mensaje}\n${JSON.stringify(data.resultado, null, 2)}`
+          ? JSON.stringify(data.resultado, null, 2)
           : `Error: ${data.detail}`
       );
       cargarDashboard(token);
@@ -1013,7 +1036,137 @@ export function App() {
                 {cargando ? 'Generando contrato...' : 'Aprobar y Generar Contrato'}
               </button>
 
-              {resultadoContrato && <div className="result-box">{resultadoContrato}</div>}
+              {resultadoContrato && (() => {
+                try {
+                  const r = JSON.parse(resultadoContrato) as {
+                    consecutivo_contrato?: string;
+                    consecutivo_cotizacion?: string;
+                    modelo_ia?: string;
+                    valor_total?: number;
+                    total_clausulas?: number;
+                    archivo_contrato?: string;
+                    archivo_base64?: string;
+                    pdf_generado?: string;
+                    pdf_base64?: string;
+                    drive_docx_url?: string | null;
+                    drive_pdf_url?: string | null;
+                    mensaje?: string;
+                  };
+                  if (!r.consecutivo_contrato) {
+                    return <div className="result-box">{resultadoContrato}</div>;
+                  }
+                  return (
+                    <div style={{ marginTop: '1rem', padding: '1.1rem', background: '#f0fdf4', border: '1px solid #86efac', borderRadius: '10px', color: '#0f172a' }}>
+                      <div style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                        <strong style={{ fontSize: '1.05rem', color: '#166534' }}>
+                          Contrato {r.consecutivo_contrato} generado con éxito
+                        </strong>
+                        {r.modelo_ia && (
+                          <span style={{ fontSize: '0.78rem', background: '#0d2b45', color: '#ffffff', padding: '0.2rem 0.55rem', borderRadius: '999px' }}>
+                            Motor: {r.modelo_ia}
+                          </span>
+                        )}
+                      </div>
+                      <div style={{ fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '0.8rem' }}>
+                        {r.mensaje && <div>{r.mensaje}</div>}
+                        {r.consecutivo_cotizacion && <div><strong>Cotización base:</strong> {r.consecutivo_cotizacion}</div>}
+                        {r.valor_total !== undefined && <div><strong>Valor total:</strong> {formatoCOP(Number(r.valor_total || 0))}</div>}
+                        {r.total_clausulas && <div><strong>Blindaje jurídico:</strong> {r.total_clausulas} cláusulas generadas</div>}
+                      </div>
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+                        {r.archivo_base64 && (
+                          <a
+                            href={`data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${r.archivo_base64}`}
+                            download={r.archivo_contrato || `${r.consecutivo_contrato}.docx`}
+                            className="btn btn-primary"
+                            style={{ textDecoration: 'none' }}
+                          >
+                            Descargar Word (.docx)
+                          </a>
+                        )}
+                        {r.pdf_base64 && (
+                          <a
+                            href={`data:application/pdf;base64,${r.pdf_base64}`}
+                            download={r.pdf_generado || `${r.consecutivo_contrato}.pdf`}
+                            className="btn"
+                            style={{ textDecoration: 'none', background: '#0d2b45', color: '#ffffff' }}
+                          >
+                            Descargar PDF (.pdf)
+                          </a>
+                        )}
+                        {r.drive_docx_url && (
+                          <a href={r.drive_docx_url} target="_blank" rel="noreferrer" className="btn" style={{ textDecoration: 'none', border: '1px solid #2d8a39', color: '#2d8a39', background: '#ffffff' }}>
+                            Abrir Word en Drive
+                          </a>
+                        )}
+                        {r.drive_pdf_url && (
+                          <a href={r.drive_pdf_url} target="_blank" rel="noreferrer" className="btn" style={{ textDecoration: 'none', border: '1px solid #0d2b45', color: '#0d2b45', background: '#ffffff' }}>
+                            Abrir PDF en Drive
+                          </a>
+                        )}
+                      </div>
+                    </div>
+                  );
+                } catch {
+                  return <div className="result-box">{resultadoContrato}</div>;
+                }
+              })()}
+
+              <div style={{ marginTop: '1.5rem', borderTop: '1px solid #e2e8f0', paddingTop: '1rem' }}>
+                <h4 style={{ marginBottom: '0.75rem', color: '#0d2b45' }}>Control de Estados PMO y Ruta Crítica</h4>
+                <div style={{ overflowX: 'auto' }}>
+                  <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.86rem' }}>
+                    <thead>
+                      <tr style={{ background: '#f8fafc', textAlign: 'left', borderBottom: '2px solid #e2e8f0' }}>
+                        <th style={{ padding: '0.55rem' }}>Expediente</th>
+                        <th style={{ padding: '0.55rem' }}>Cliente</th>
+                        <th style={{ padding: '0.55rem' }}>Avance PMO</th>
+                        <th style={{ padding: '0.55rem' }}>Estado Oficial</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {(((dashboard as any)?.proyectos || []) as any[]).map((p) => {
+                        const pctMap: Record<string, number> = {
+                          COTIZACION_PENDIENTE_APROBACION: 5,
+                          COTIZADO: 15,
+                          CONTRATO_PENDIENTE: 30,
+                          FIRMADO: 65,
+                          FINALIZADO: 100,
+                        };
+                        const pct = pctMap[p.estado] ?? 15;
+                        return (
+                          <tr key={p.id} style={{ borderBottom: '1px solid #e2e8f0' }}>
+                            <td style={{ padding: '0.55rem', fontWeight: 600 }}>
+                              {p.consecutivo_contrato || p.consecutivo_cotizacion}
+                            </td>
+                            <td style={{ padding: '0.55rem' }}>{p.cliente || p.cliente_nombre || 'Cliente'}</td>
+                            <td style={{ padding: '0.55rem', minWidth: '120px' }}>
+                              <div style={{ background: '#e2e8f0', borderRadius: '999px', height: '8px', overflow: 'hidden', marginBottom: '3px' }}>
+                                <div style={{ width: `${pct}%`, height: '100%', background: pct === 100 ? '#2d8a39' : '#0d2b45' }} />
+                              </div>
+                              <span style={{ fontSize: '0.75rem', color: '#475569' }}>{pct}%</span>
+                            </td>
+                            <td style={{ padding: '0.55rem' }}>
+                              <select
+                                value={p.estado}
+                                disabled={cargando}
+                                onChange={(e) => handleCambiarEstadoProyecto(p.id, e.target.value)}
+                                style={{ padding: '0.35rem 0.5rem', borderRadius: '6px', border: '1px solid #cbd5e1', fontSize: '0.82rem' }}
+                              >
+                                <option value="COTIZACION_PENDIENTE_APROBACION">COTIZACION_PENDIENTE_APROBACION</option>
+                                <option value="COTIZADO">COTIZADO</option>
+                                <option value="CONTRATO_PENDIENTE">CONTRATO_PENDIENTE</option>
+                                <option value="FIRMADO">FIRMADO</option>
+                                <option value="FINALIZADO">FINALIZADO</option>
+                              </select>
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
             </div>
 
             <div className="card">
@@ -1153,76 +1306,192 @@ export function App() {
           </div>
         )}
 
-        {/* TAB 5: FINANZAS */}
-        {tab === 'finanzas' && esSocio && (
-          <div className="form-grid">
-            <div className="card">
-              <h3>Emitir Cuenta de Cobro (50% Fase 1 / 50% Fase 2)</h3>
-              <form onSubmit={handleEmitirCobro}>
-                <div className="form-group">
-                  <label>Consecutivo de Contrato</label>
-                  <input
-                    required
-                    placeholder="Ej: CONT-2026-001"
-                    value={cobroContrato}
-                    onChange={(e) => setCobroContrato(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Fase a Cobrar</label>
-                  <select value={cobroFase} onChange={(e) => setCobroFase(Number(e.target.value))}>
-                    <option value={1}>Fase 1 — Anticipo (50%)</option>
-                    <option value={2}>Fase 2 — Entrega Final (50%)</option>
-                  </select>
-                </div>
-                <button type="submit" className="btn btn-secondary" disabled={cargando}>
-                  Emitir Cuenta de Cobro
-                </button>
-              </form>
-            </div>
-
-            <div className="card">
-              <h3>Registrar Pago Recibido y Liquidar Comisiones</h3>
-              <form onSubmit={handleRegistrarPago}>
-                <div className="form-group">
-                  <label>Consecutivo de Contrato</label>
-                  <input
-                    required
-                    placeholder="Ej: CONT-2026-001"
-                    value={pagoContrato}
-                    onChange={(e) => setPagoContrato(e.target.value)}
-                  />
-                </div>
-                <div className="form-group">
-                  <label>Fase Pagada</label>
-                  <select value={pagoFase} onChange={(e) => setPagoFase(Number(e.target.value))}>
-                    <option value={1}>Fase 1 — Anticipo (50%)</option>
-                    <option value={2}>Fase 2 — Entrega Final (50%)</option>
-                  </select>
-                </div>
-                <div className="form-group">
-                  <label>Costos Directos Reales (Opcional, COP)</label>
-                  <input
-                    type="number"
-                    placeholder="Dejar vacío si no aplica"
-                    value={pagoCostosReales}
-                    onChange={(e) => setPagoCostosReales(e.target.value)}
-                  />
-                </div>
-                <button type="submit" className="btn btn-primary" disabled={cargando}>
-                  Registrar Pago y Liquidar
-                </button>
-              </form>
-            </div>
-
-            {resultadoFinanzas && (
-              <div className="card" style={{ gridColumn: '1 / -1' }}>
-                <h3>Resultado Operación Financiera</h3>
-                <div className="result-box">{resultadoFinanzas}</div>
+                {/* TAB 5: FINANZAS */}
+        {tab === 'finanzas' && esSocio && (() => {
+          const contratosDisponibles = (((dashboard as any)?.proyectos || []) as any[]).filter(
+            (p) => Boolean(p.consecutivo_contrato)
+          );
+          return (
+            <div className="form-grid">
+              <div className="card">
+                <h3>Emitir Cuenta de Cobro</h3>
+                <form onSubmit={handleEmitirCobro}>
+                  <div className="form-group">
+                    <label>Contrato y Cliente</label>
+                    <select
+                      required
+                      value={cobroContrato}
+                      onChange={(e) => setCobroContrato(e.target.value)}
+                    >
+                      <option value="">-- Selecciona un contrato --</option>
+                      {contratosDisponibles.map((p) => (
+                        <option key={p.id} value={p.consecutivo_contrato}>
+                          {p.consecutivo_contrato} — {p.cliente || p.cliente_nombre || 'Cliente'} ({formatoCOP(Number(p.valor_total || 0))})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Fase a Cobrar</label>
+                    <select value={cobroFase} onChange={(e) => setCobroFase(Number(e.target.value))}>
+                      <option value={1}>Fase 1 — Anticipo</option>
+                      <option value={2}>Fase 2 — Avance / Entrega</option>
+                      <option value={3}>Fase 3 — Cierre / Radicación Final</option>
+                    </select>
+                  </div>
+                  <button type="submit" className="btn btn-secondary" disabled={cargando || !cobroContrato}>
+                    Emitir Cuenta de Cobro
+                  </button>
+                </form>
               </div>
-            )}
-          </div>
-        )}
+
+              <div className="card">
+                <h3>Registrar Pago Recibido y Liquidar Comisiones</h3>
+                <form onSubmit={handleRegistrarPago}>
+                  <div className="form-group">
+                    <label>Contrato y Cliente</label>
+                    <select
+                      required
+                      value={pagoContrato}
+                      onChange={(e) => setPagoContrato(e.target.value)}
+                    >
+                      <option value="">-- Selecciona un contrato --</option>
+                      {contratosDisponibles.map((p) => (
+                        <option key={p.id} value={p.consecutivo_contrato}>
+                          {p.consecutivo_contrato} — {p.cliente || p.cliente_nombre || 'Cliente'} ({formatoCOP(Number(p.valor_total || 0))})
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Fase Pagada</label>
+                    <select value={pagoFase} onChange={(e) => setPagoFase(Number(e.target.value))}>
+                      <option value={1}>Fase 1 — Anticipo</option>
+                      <option value={2}>Fase 2 — Avance / Entrega</option>
+                      <option value={3}>Fase 3 — Cierre / Radicación Final</option>
+                    </select>
+                  </div>
+                  <div className="form-group">
+                    <label>Costos Directos Reales (Opcional, COP)</label>
+                    <input
+                      type="number"
+                      placeholder="Dejar vacío si no aplica"
+                      value={pagoCostosReales}
+                      onChange={(e) => setPagoCostosReales(e.target.value)}
+                    />
+                  </div>
+                  <button type="submit" className="btn btn-primary" disabled={cargando || !pagoContrato}>
+                    Registrar Pago y Liquidar
+                  </button>
+                </form>
+              </div>
+
+              {resultadoFinanzas && (() => {
+                try {
+                  const r = JSON.parse(resultadoFinanzas) as {
+                    consecutivo_cuenta_cobro?: string;
+                    fase?: number;
+                    porcentaje?: number;
+                    valor_cop?: number;
+                    archivo_generado?: string;
+                    archivo_base64?: string;
+                    pdf_generado?: string;
+                    pdf_base64?: string;
+                    drive_docx_url?: string | null;
+                    drive_pdf_url?: string | null;
+                    consecutivo_contrato?: string;
+                    fase_pagada?: number;
+                    valor_recibido?: number;
+                    utilidad_neta_base?: number;
+                    comision_comercial_cop?: number;
+                    reserva_operativa_15?: number;
+                    capitalizacion_25?: number;
+                    utilidad_distribuible_socios?: number;
+                    estado_liquidacion?: string;
+                  };
+                  if (r.consecutivo_cuenta_cobro) {
+                    return (
+                      <div className="card" style={{ gridColumn: '1 / -1', background: '#f0fdf4', border: '1px solid #86efac' }}>
+                        <strong style={{ fontSize: '1.05rem', color: '#166534', display: 'block', marginBottom: '0.5rem' }}>
+                          Cuenta de Cobro {r.consecutivo_cuenta_cobro} emitida con éxito
+                        </strong>
+                        <div style={{ fontSize: '0.9rem', lineHeight: 1.6, marginBottom: '0.85rem' }}>
+                          <div><strong>Fase cobrada:</strong> Fase {r.fase} ({r.porcentaje}%)</div>
+                          <div><strong>Valor a cobrar:</strong> {formatoCOP(Number(r.valor_cop || 0))}</div>
+                          <div style={{ color: '#475569', fontSize: '0.82rem', marginTop: '0.25rem' }}>
+                            Enviada a los Socios Administradores para revisión y firma antes de remitir al cliente.
+                          </div>
+                        </div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+                          {r.archivo_base64 && (
+                            <a
+                              href={`data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,${r.archivo_base64}`}
+                              download={r.archivo_generado || `${r.consecutivo_cuenta_cobro}.docx`}
+                              className="btn btn-primary"
+                              style={{ textDecoration: 'none' }}
+                            >
+                              Descargar Word (.docx)
+                            </a>
+                          )}
+                          {r.pdf_base64 && (
+                            <a
+                              href={`data:application/pdf;base64,${r.pdf_base64}`}
+                              download={r.pdf_generado || `${r.consecutivo_cuenta_cobro}.pdf`}
+                              className="btn"
+                              style={{ textDecoration: 'none', background: '#0d2b45', color: '#ffffff' }}
+                            >
+                              Descargar PDF (.pdf)
+                            </a>
+                          )}
+                          {r.drive_docx_url && (
+                            <a href={r.drive_docx_url} target="_blank" rel="noreferrer" className="btn" style={{ textDecoration: 'none', border: '1px solid #2d8a39', color: '#2d8a39', background: '#ffffff' }}>
+                              Abrir Word en Drive
+                            </a>
+                          )}
+                          {r.drive_pdf_url && (
+                            <a href={r.drive_pdf_url} target="_blank" rel="noreferrer" className="btn" style={{ textDecoration: 'none', border: '1px solid #0d2b45', color: '#0d2b45', background: '#ffffff' }}>
+                              Abrir PDF en Drive
+                            </a>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (r.consecutivo_contrato && r.valor_recibido !== undefined) {
+                    return (
+                      <div className="card" style={{ gridColumn: '1 / -1', background: '#f0fdf4', border: '1px solid #86efac' }}>
+                        <strong style={{ fontSize: '1.05rem', color: '#166534', display: 'block', marginBottom: '0.5rem' }}>
+                          Pago Fase {r.fase_pagada} registrado — {r.consecutivo_contrato}
+                        </strong>
+                        <div style={{ fontSize: '0.9rem', lineHeight: 1.65 }}>
+                          <div><strong>Ingreso recibido:</strong> {formatoCOP(Number(r.valor_recibido || 0))}</div>
+                          <div><strong>Utilidad neta base:</strong> {formatoCOP(Number(r.utilidad_neta_base || 0))}</div>
+                          <div><strong>Comisión comercial:</strong> {formatoCOP(Number(r.comision_comercial_cop || 0))}</div>
+                          <div><strong>Reserva operativa (15%):</strong> {formatoCOP(Number(r.reserva_operativa_15 || 0))}</div>
+                          <div><strong>Capitalización S.A.S. (25%):</strong> {formatoCOP(Number(r.capitalizacion_25 || 0))}</div>
+                          <div><strong>Utilidad distribuible socios:</strong> {formatoCOP(Number(r.utilidad_distribuible_socios || 0))} ({r.estado_liquidacion})</div>
+                        </div>
+                      </div>
+                    );
+                  }
+                  return (
+                    <div className="card" style={{ gridColumn: '1 / -1' }}>
+                      <h3>Resultado Operación Financiera</h3>
+                      <div className="result-box">{resultadoFinanzas}</div>
+                    </div>
+                  );
+                } catch {
+                  return (
+                    <div className="card" style={{ gridColumn: '1 / -1' }}>
+                      <h3>Resultado Operación Financiera</h3>
+                      <div className="result-box">{resultadoFinanzas}</div>
+                    </div>
+                  );
+                }
+              })()}
+            </div>
+          );
+        })()}
 
         {/* TAB 6: AJUSTES Y GESTIÓN DE USUARIOS */}
         {tab === 'ajustes' && esSocio && (

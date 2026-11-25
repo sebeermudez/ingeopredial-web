@@ -1125,7 +1125,7 @@ export function App() {
                       </tr>
                     </thead>
                     <tbody>
-                      {(((dashboard as any)?.proyectos || []) as any[]).map((p) => {
+                      {(proyectos as any[]).map((p) => {
                         const pctMap: Record<string, number> = {
                           COTIZACION_PENDIENTE_APROBACION: 5,
                           COTIZADO: 15,
@@ -1308,7 +1308,7 @@ export function App() {
 
                 {/* TAB 5: FINANZAS */}
         {tab === 'finanzas' && esSocio && (() => {
-          const contratosDisponibles = (((dashboard as any)?.proyectos || []) as any[]).filter(
+          const contratosDisponibles = (proyectos as any[]).filter(
             (p) => Boolean(p.consecutivo_contrato)
           );
           return (
